@@ -1,0 +1,27 @@
+{
+  "name": "ander/dev-blog",
+  "description": "Blog",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Source\\" : "source/"
+    },
+    "files": [
+      "source/Config.php"
+    ]
+  },
+  "require": {
+    "coffeecode/datalayer": "^1.0",
+    "coffeecode/router": "1.0.*",
+    "league/plates": "v4.0.0-alpha",
+    "ext-json": "*"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ander Robson",
+      "email": "ander.robson@hotmail.com"
+    }
+  ],
+  "minimum-stability": "dev"
+}
