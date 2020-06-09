@@ -1,7 +1,10 @@
 <?php
-
     if (!defined('URL_BASE')) {
-        define('URL_BASE', 'http://localhost:4444/sites/site-dev/');
+        define('URL_BASE', 'http://' . $_SERVER['HTTP_HOST'] . '/Plataforma/sites/site-dev');
+    }
+
+    if (!defined('URL_ADMIN')) {
+        define('URL_ADMIN', 'http://' . $_SERVER['HTTP_HOST'] . '/Plataforma/dev-admin');
     }
 
     if (!defined('DS')) {
@@ -24,8 +27,29 @@
         include_once  __DIR__ . '/../vendor' . DS . 'autoload.php';
     }
 
+    /**
+     * Imprime valores dependendo do formato
+     */
+    function printr () {
+        $args = func_get_args();
+        foreach($args as &$arg){
+            echo '<pre>';
+            if (is_object($arg) || is_array($arg)) print_r($arg);
+            elseif (empty($arg) || is_resource($arg)) var_dump($arg);
+            else echo (string) $arg;
+            echo '</pre>';
+        }
+    }
+
+    /**
+     * Imprime valores dependendo do formato e morre
+     */
+    function printrx () {
+        $args = func_get_args();
+        call_user_func_array('printr', $args);
+        die();
+    }
+
     // Session Start
     session_start();
-var_dump(ENGINE . DS . 'routes.php');
-
     require(ENGINE . DS . 'routes.php');

@@ -12,6 +12,10 @@
 
     $router->get("/", "Web:home");
 
+    $router->get("{slug_post}", "Web:slugPost");
+    $router->get("pages/{page}", "Web:pages");
+    $router->get("pages/{page}/{function}", "Web:pages");
+    $router->post("pages/{page}/{function}", "Web:pages");
 
     /**
      * Group Error
