@@ -4,6 +4,7 @@ namespace Theme\Pages\Publication;
 
 use League\Plates\Engine;
 use Source\Controllers\Upload;
+use Theme\Pages\Home\HomeModel;
 
 /**
  * Class PublicationController
@@ -34,14 +35,17 @@ class PublicationController
 
     public function index(): void
     {
-        $message = null;
-        if (! empty($_GET['type'])) {
-            $message = message($_GET['type'], $_GET['type']);
-        }
-
         echo $this->view->render("publication/view/index", [
-            "publications" => (new PublicationModel())->find()->order('id')->fetch(true),
-            'message' => $message
+            "banners" => (new HomeModel())->find('type = 2')->order('id')->limit(3)->fetch(true),
+            "publications" => (new PublicationModel())->find()->order('id')->fetch(true)
+        ]);
+    }
+
+    public function slugPublication($slug): void
+    {
+        echo $this->view->render("publication/view/publication", [
+            "banners" => (new HomeModel())->find('type = 2')->order('id')->limit(3)->fetch(true),
+            "publications" => (new PublicationModel())->find('slug = "' . $slug['slug_post']. '"')->limit(1)->fetch(true)
         ]);
     }
 

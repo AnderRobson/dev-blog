@@ -3,7 +3,7 @@
 namespace Theme\Pages\Home;
 
 use League\Plates\Engine;
-use Theme\Pages\Banner\BannerModel;
+use Theme\Pages\Publication\PublicationModel;
 
 include 'model.php';
 
@@ -27,7 +27,8 @@ class HomeController
     public function index(): void
     {
         echo $this->view->render("home/view/index", [
-            "banners" => (new BannerModel())->find()->order('id')->fetch(true)
+            "banners" => (new HomeModel())->find('type = 1')->order('id')->limit(3)->fetch(true),
+            "publications" => (new PublicationModel())->find()->order('id')->limit(3)->fetch(true)
         ]);
     }
 

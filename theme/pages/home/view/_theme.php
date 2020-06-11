@@ -1,10 +1,11 @@
 <?php
-$v->layout("painel/view/_theme", ["title" => $title]); ?>
+    $v->layout("painel/view/_theme", ["title" => $title]);
 
-<div class="container-fluid">
-    <?= $v->section("content"); ?>
-</div>
+        echo $v->section("content");
 
-<?php $v->start("js"); ?>
-    <?= $v->section("js"); ?>
-<?php  $v->end(); ?>
+    $v->start("js");
+        echo $v->section("js");
+    $v->end();
+    $v->start("css");
+        echo $v->section("css");
+    $v->end();

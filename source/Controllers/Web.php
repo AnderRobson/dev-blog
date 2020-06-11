@@ -32,18 +32,31 @@
                 case 'home':
                     $controller = new HomeController($this->router);
                     break;
+                case 'publication':
+                    $controller = new PublicationController($this->router);
+                    break;
             }
 
             if (! empty($controller)) {
                 $this->controller = $controller;
             } else {
-                printrx(utf8_encode("<h1 style='text-align: center'>Construtor da controller {$controllerName}, não implementado</h1>"));
+                printrx(utf8_encode("<h1 style='text-align: center'>Construtor da controller {$controllerName}, n�o implementado</h1>"));
             }
         }
 
         public function home(array $router)
         {
-            redirect("/pages/home");
+            redirect("/home/index");
+        }
+
+        public function publication(array $router)
+        {
+            redirect("/publication/index");
+        }
+
+        public function contact(array $router)
+        {
+            redirect("/contact/index");
         }
 
         public function pages(array $data)
@@ -63,10 +76,13 @@
             }
         }
 
-        public function slugPost($slugPost)
+        public function slugPublication($slug)
         {
-            echo "<h1 style='text-align: center'> Pesquisa de publicação pelo slug !</h1>";
-            var_dump($slugPost);
+            require loadController('publication');
+            $this->setController('publication');
+            $function = 'slugPublication';
+
+            $this->controller->$function($slug);
         }
 
         public function error($data)

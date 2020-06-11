@@ -53,6 +53,25 @@
         return "<script src='{$file}'></script>";
     }
 
+    function bootstrap(string $file)
+    {
+        $return = null;
+        $type = explode('.', $file);
+        $type = end($type);
+
+        $file = "/Plataforma/dev-blog/vendor/twbs/bootstrap/" . $file;
+
+        switch ($type) {
+            case 'js':
+                $return = "<script src='{$file}'></script>";
+                break;
+            case 'css':
+                $return = "<link rel='stylesheet' href='{$file}'>";
+        }
+
+        return $return;
+    }
+
     function plugins(string $file)
     {
         $return = null;
@@ -63,6 +82,7 @@
         switch ($type) {
             case 'js':
                 $return = "<script src='{$file}'></script>";
+                break;
             case 'css':
                 $return = "<link rel='stylesheet' href='{$file}'>";
         }

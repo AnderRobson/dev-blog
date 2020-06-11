@@ -12,10 +12,10 @@
 
     $router->get("/", "Web:home");
 
-    $router->get("{slug_post}", "Web:slugPost");
-    $router->get("pages/{page}", "Web:pages");
-    $router->get("pages/{page}/{function}", "Web:pages");
-    $router->post("pages/{page}/{function}", "Web:pages");
+    $router->get("{slug_post}", "Web:slugPublication");
+    $router->get("{page}/{function}", "Web:pages");
+    $router->get("publication", "Web:publication");
+    $router->get("contact", "Web:contact");
 
     /**
      * Group Error
