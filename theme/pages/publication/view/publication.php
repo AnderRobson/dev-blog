@@ -1,7 +1,6 @@
 <?php
 $v->layout("banner/view/_theme", ["title" => "Publicações"]); ?>
 
-
     <?php if (! empty($banners)):
         $v->insert("elements/bannerHeader", ['banners' => $banners]);
     endif; ?>

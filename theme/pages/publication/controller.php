@@ -2,6 +2,7 @@
 
 namespace Theme\Pages\Publication;
 
+use CoffeeCode\Paginator\Paginator;
 use League\Plates\Engine;
 use Source\Controllers\Upload;
 use Theme\Pages\Home\HomeModel;
@@ -33,11 +34,19 @@ class PublicationController
         return $this;
     }
 
-    public function index(): void
+    public function index($page = null): void
     {
+        $publications = (new PublicationModel())->find()->order('id');
+        $banners = (new HomeModel())->find('type = 2')->order('id')->limit(3);
+
+        $page = filter_var_array($_GET, FILTER_SANITIZE_STRING)['page'] ?: 1;
+        $pager = new Paginator(url('/publication?page='));
+        $pager->pager($publications->count(), 3, $page, 2);
+
         echo $this->view->render("publication/view/index", [
-            "banners" => (new HomeModel())->find('type = 2')->order('id')->limit(3)->fetch(true),
-            "publications" => (new PublicationModel())->find()->order('id')->fetch(true)
+            "banners" => $banners->fetch(true),
+            "publications" => $publications->limit($pager->limit())->offset($pager->offset())->fetch(true),
+            "pager" => $pager
         ]);
     }
 

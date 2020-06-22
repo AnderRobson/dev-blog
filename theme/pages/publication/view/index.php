@@ -8,6 +8,7 @@ $v->layout("banner/view/_theme", ["title" => "Publicações"]); ?>
 
     <main role="main" class="container">
         <div class="row text-center">
+            <h1>Página <?= $pager->page(); ?> de <?= $pager->pages(); ?></h1>
             <?php if (! empty($publications)):
                 foreach ($publications as $publication) {
                     $v->insert("elements/publicationCard", ['publication' => $publication]);
@@ -15,3 +16,5 @@ $v->layout("banner/view/_theme", ["title" => "Publicações"]); ?>
             endif; ?>
         </div>
     </main>
+
+    <?= $pager->render(); ?>

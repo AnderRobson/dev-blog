@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "93c4a1102ebe4f9d39b13d2d0c783172",
+    "content-hash": "07eae0c68e49a72bf66932e1dbfc7ba0",
     "packages": [
         {
             "name": "coffeecode/datalayer",
@@ -54,6 +54,50 @@
                 "upinside"
             ],
             "time": "2019-10-29T13:34:17+00:00"
+        },
+        {
+            "name": "coffeecode/paginator",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/robsonvleite/paginator.git",
+                "reference": "98b6a42ab7ee4a9ec08faa37e5cfb0a073143d2d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/robsonvleite/paginator/zipball/98b6a42ab7ee4a9ec08faa37e5cfb0a073143d2d",
+                "reference": "98b6a42ab7ee4a9ec08faa37e5cfb0a073143d2d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CoffeeCode\\Paginator\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robson V. Leite",
+                    "email": "cursos@upinside.com.br",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Paginator is simple and is ready to generate results navigation in your application",
+            "homepage": "http://www.upinside.com.br",
+            "keywords": [
+                "Coffeecode",
+                "pagination",
+                "paginator",
+                "upinside"
+            ],
+            "time": "2019-03-12T14:38:13+00:00"
         },
         {
             "name": "coffeecode/router",
@@ -178,12 +222,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "833125b5fec362d32fbdfbe03a1b319896a299f2"
+                "reference": "b0b9d144465941d90fc1e999b2365bdf02803963"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/833125b5fec362d32fbdfbe03a1b319896a299f2",
-                "reference": "833125b5fec362d32fbdfbe03a1b319896a299f2",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/b0b9d144465941d90fc1e999b2365bdf02803963",
+                "reference": "b0b9d144465941d90fc1e999b2365bdf02803963",
                 "shasum": ""
             },
             "replace": {
@@ -216,7 +260,7 @@
                 "sass",
                 "web"
             ],
-            "time": "2020-06-11T04:52:12+00:00"
+            "time": "2020-06-11T20:20:10+00:00"
         }
     ],
     "packages-dev": [],

@@ -40,23 +40,23 @@
             if (! empty($controller)) {
                 $this->controller = $controller;
             } else {
-                printrx(utf8_encode("<h1 style='text-align: center'>Construtor da controller {$controllerName}, não implementado</h1>"));
+                printrx(utf8_encode("<h1 style='text-align: center'>Construtor da controller {$controllerName}, nï¿½o implementado</h1>"));
             }
         }
 
-        public function home(array $router)
+        public function home()
         {
-            redirect("/home/index");
+            $this->pages(["page" => "home"]);
         }
 
-        public function publication(array $router)
+        public function publication()
         {
-            redirect("/publication/index");
+            $this->pages(["page" => "publication"]);
         }
 
-        public function contact(array $router)
+        public function contact()
         {
-            redirect("/contact/index");
+            $this->pages(["page" => "contact"]);
         }
 
         public function pages(array $data)
