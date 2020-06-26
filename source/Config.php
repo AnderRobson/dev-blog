@@ -2,11 +2,11 @@
 
     define("DATA_LAYER_CONFIG", [
         "driver" => "mysql",
-        "host" => DATABASE_HOST,
-        "port" => DATABASE_PORT,
-        "dbname" => DATABASE_DBNAME,
-        "username" => DATABASE_USER,
-        "passwd" => DATABASE_PASSWORD,
+        "host" => DATABASE["HOST"],
+        "port" => DATABASE["PORT"],
+        "dbname" => DATABASE["DBNAME"],
+        "username" => DATABASE["USER"],
+        "passwd" => DATABASE["PASSWORD"],
         "options" => [
             PDO::MYSQL_ATTR_INIT_COMMAND  => "SET NAMES utf8",
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -113,5 +113,5 @@
         if (file_exists($route))
             return $route;
         else
-            printrx(utf8_encode("<h1 style='text-align: center'>Página {$controller} não encontrada</h1>"));
+            printrx(utf8_encode("<h1 style='text-align: center'>Pï¿½gina {$controller} nï¿½o encontrada</h1>"));
     }
