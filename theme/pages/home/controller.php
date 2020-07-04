@@ -2,33 +2,30 @@
 
 namespace Theme\Pages\Home;
 
-use League\Plates\Engine;
+use Source\Controllers\Controller;
 use Theme\Pages\Publication\PublicationModel;
+use Theme\Pages\User\UserModel;
 
-include 'model.php';
-
-class HomeController
+class HomeController extends Controller
 {
-    /** @var Engine  */
-    private $view;
-
     public function __construct($router)
     {
-        $this->view = Engine::create(
-            ROOT . DS . 'theme/pages/',
-            'php'
-        );
-
-        $this->view->addData(["router" => $router]);
-
-        return $this;
+        parent::__construct($router);
     }
 
     public function index(): void
     {
+        $head = $this->seo->optimize(
+            "Bem vindo ao " . SITE["SHORT_NAME"],
+            SITE["DESCRIPTION"],
+            url(),
+            ""
+        )->render();
+
         echo $this->view->render("home/view/index", [
             "banners" => (new HomeModel())->find('type = 1')->order('id')->limit(3)->fetch(true),
-            "publications" => (new PublicationModel())->find()->order('id')->limit(3)->fetch(true)
+            "publications" => (new PublicationModel())->find()->order('id')->limit(3)->fetch(true),
+            "head" => $head
         ]);
     }
 
@@ -42,7 +39,7 @@ class HomeController
             return;
         }
 
-        $user = new HomeModel();
+        $user = new UserModel();
         $user->first_name = $userData["first_name"];
         $user->last_name = $userData["last_name"];
         $user->save();

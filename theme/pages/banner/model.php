@@ -1,13 +1,14 @@
 <?php
 
-    namespace Theme\Pages\Banner;
+namespace Theme\Pages\Banner;
 
-    use CoffeeCode\DataLayer\DataLayer;
 
-    class BannerModel extends DataLayer
+use Source\Models\Model;
+
+class BannerModel extends Model
+{
+    public function __construct()
     {
-        public function __construct()
-        {
-            parent::__construct("banners", ["title", "slug", "description"]);
-        }
+        parent::__construct("banners", ["title", "slug", "description"]);
     }
+}

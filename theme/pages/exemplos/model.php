@@ -1,13 +1,14 @@
 <?php
 
-    namespace Theme\Pages\Exemplos;
+namespace Theme\Pages\Exemplos;
 
-    use CoffeeCode\DataLayer\DataLayer;
 
-    class ExemplosModel extends DataLayer
+use Source\Models\Model;
+
+class ExemplosModel extends Model
+{
+    public function __construct()
     {
-        public function __construct()
-        {
-            parent::__construct("users", ["name"]);
-        }
+        parent::__construct("users", ["first_name"]);
     }
+}

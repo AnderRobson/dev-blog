@@ -7,15 +7,15 @@
 <p>
     URL de acesso ao painel administrativo:
     
-    /sites/site-dev/admin/
+    /site-dev/admin/
 </p>
 <p>
     URL de acesso ao Blog:
 
-    /sites/site-dev/
+    /site-dev/
 </p>
 <p>
     Observação:
     
-    Colocar o projeto Blog dev dentro da pasta sites. 
+    Colocar o projeto Blog dev na mesma pasta que os outros projetos. 
 </p>

@@ -2,29 +2,27 @@
 
 namespace Theme\Pages\Exemplos;
 
-use League\Plates\Engine;
+use Source\Controllers\Controller;
 
-class ExemploController
+class ExemploController extends Controller
 {
-    /** @var Engine  */
-    private $view;
-
     public function __construct($router)
     {
-        $this->view = Engine::create(
-            ROOT . DS . 'theme/pages/',
-            'php'
-        );
-
-        $this->view->addData(["router" => $router]);
-
-        return $this;
+        parent::__construct($router);
     }
 
     public function index(): void
     {
+        $head = $this->seo->optimize(
+            "Bem vindo ao " . SITE["SHORT_NAME"],
+            SITE["DESCRIPTION"],
+            url("pages/banner"),
+            ""
+        )->render();
+
         echo $this->view->render("exemplos/view/index", [
-            "users" => (new ExemplosModel())->find()->order('name')->fetch(true)
+            "users" => (new ExemplosModel())->find()->order('name')->fetch(true),
+            "head" => $head
         ]);
     }
 

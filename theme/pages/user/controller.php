@@ -1,34 +1,38 @@
 <?php
 
-namespace Theme\Pages\Banner;
+namespace Theme\Pages\User;
 
 use Source\Controllers\Controller;
 
 /**
- * Class BannerController
- * @package Theme\Pages\Banner
- *
- * @property BannerModel $banner
+ * Class UserController
+ * @package Theme\Pages\Exemplos
  */
-class BannerController extends Controller
+class UserController extends Controller
 {
+    /**
+     * ExemploController constructor.
+     * @param $router
+     */
     public function __construct($router)
     {
         parent::__construct($router);
     }
 
+    /**
+     * Página index perfil.
+     */
     public function index(): void
     {
         $head = $this->seo->optimize(
             "Bem vindo ao " . SITE["SHORT_NAME"],
             SITE["DESCRIPTION"],
-            url("banner"),
+            url("profile"),
             ""
         )->render();
 
-        echo $this->view->render("banner/view/index", [
-            "banners" => (new BannerModel())->find()->order('id')->fetch(true),
-            "head" => $head
+        echo $this->view->render("user/view/index", [
+            'head' => $head
         ]);
     }
 }

@@ -2,9 +2,9 @@
 
     namespace Theme\Pages\Home;
 
-    use CoffeeCode\DataLayer\DataLayer;
+    use Source\Models\Model;
 
-    class HomeModel extends DataLayer
+    class HomeModel extends Model
     {
         public function __construct()
         {

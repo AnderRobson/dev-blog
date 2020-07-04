@@ -1,10 +1,10 @@
 <?php
     if (!defined('URL_BASE')) {
-        define('URL_BASE', 'http://' . $_SERVER['HTTP_HOST'] . '/Plataforma/sites/site-dev');
+        define('URL_BASE', 'http://' . $_SERVER['HTTP_HOST'] . DIRECTORY_SEPARATOR . SITE["PATH"]);
     }
 
     if (!defined('URL_ADMIN')) {
-        define('URL_ADMIN', 'http://' . $_SERVER['HTTP_HOST'] . '/Plataforma/dev-admin');
+        define('URL_ADMIN', 'http://' . $_SERVER['HTTP_HOST'] . '/dev-admin');
     }
 
     if (!defined('DS')) {
