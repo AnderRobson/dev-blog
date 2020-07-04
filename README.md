@@ -16,6 +16,6 @@
 </p>
 <p>
     Observação:
-    
+
     Colocar o projeto Blog dev na mesma pasta que os outros projetos. 
 </p>
