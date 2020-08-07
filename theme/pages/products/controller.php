@@ -1,20 +1,19 @@
 <?php
 
-namespace Theme\Pages\Publication;
+namespace Theme\Pages\Products;
 
 use Source\Libary\Paginator;
 use Source\Controllers\Controller;
-use Source\Controllers\Upload;
 use Theme\Pages\Home\HomeModel;
 
 /**
- * Class PublicationController
- * @package Theme\Pages\Publication
+ * Class ProductsController
+ * @package Theme\Pages\Products
  *
- * @property PublicationModel $publication
+ * @property ProductsModel $products
  *
  */
-class PublicationController extends Controller
+class ProductsController extends Controller
 {
 
     public function __construct($router)
@@ -28,38 +27,38 @@ class PublicationController extends Controller
         $head = $this->seo->optimize(
             "Bem vindo ao " . SITE["SHORT_NAME"],
             SITE["DESCRIPTION"],
-            url("pages/publication"),
+            url("pages/products"),
             ""
         )->render();
 
-        $publications = (new PublicationModel())->find()->order('id');
+        $products = (new ProductsModel())->find('status = 1')->order('id');
         $banners = (new HomeModel())->find('type = 2')->order('id')->limit(3);
 
         $page = isset($data["page"]) ? $data["page"] : 1;
         $limit = isset($data["limit"]) ? $data["limit"] : 20;
-        $pager = new Paginator(url('publication?' . (isset($data["limit"]) ? 'limit=' . $limit . '&' : '') . 'page='));
-        $pager->pager($publications->count(), $limit, $page, 2);
+        $pager = new Paginator(url('products?' . (isset($data["limit"]) ? 'limit=' . $limit . '&' : '') . 'page='));
+        $pager->pager($products->count(), $limit, $page, 2);
 
-        echo $this->view->render("publication/view/index", [
+        echo $this->view->render("products/view/index", [
             "banners" => $banners->fetch(true),
-            "publications" => $publications->limit($pager->limit())->offset($pager->offset())->fetch(true),
+            "products" => $products->limit($pager->limit())->offset($pager->offset())->fetch(true),
             "pager" => $pager,
             "head" => $head
         ]);
     }
 
-    public function slugPublication($slug): void
+    public function slugProduct($slug): void
     {
         $head = $this->seo->optimize(
             "Bem vindo ao " . SITE["SHORT_NAME"],
             SITE["DESCRIPTION"],
-            url("pages/publication"),
+            url("pages/products"),
             ""
         )->render();
 
-        echo $this->view->render("publication/view/publication", [
+        echo $this->view->render("products/view/product", [
             "banners" => (new HomeModel())->find('type = 2')->order('id')->limit(3)->fetch(true),
-            "publications" => (new PublicationModel())->find('slug = "' . $slug['slug_post']. '"')->limit(1)->fetch(true),
+            "product" => (new ProductsModel())->find('slug = "' . $slug['slug_post']. '"')->limit(1)->fetch(true),
             "head" => $head
         ]);
     }
@@ -70,43 +69,43 @@ class PublicationController extends Controller
             $data = filter_var_array($data, FILTER_SANITIZE_STRING);
 
             if (empty($data["title"]) || empty($data["description"]) || ! empty($_FILES["file"]["error"])) {
-                redirect("/pages/publication?type=error");
+                redirect("/pages/products?type=error");
                 return;
             }
 
-            $publication = new PublicationModel();
-            $publication->title = $data['title'];
-            $publication->slug = str_replace(' ', '-', utf8_decode(strtolower($data['title'])));
-            $publication->description = $data['description'];
+            $products = new ProductsModel();
+            $products->title = $data['title'];
+            $products->slug = str_replace(' ', '-', utf8_decode(strtolower($data['title'])));
+            $products->description = $data['description'];
 
             if (! empty($_FILES["file"])) {
                 $upload = new Upload();
                 $upload->setArquivo($_FILES);
-                $upload->setDestinho("publication");
+                $upload->setDestinho("products");
                 $nameImage = $upload->upload();
 
                 if (! $nameImage) {
-                    redirect("/pages/publication?type=error");
+                    redirect("/pages/products?type=error");
                 }
 
-                $publication->image = $nameImage;
+                $products->image = $nameImage;
             }
 
-            if (! $publication->save()) {
-                redirect("/pages/publication?type=error");
+            if (! $products->save()) {
+                redirect("/pages/products?type=error");
             }
 
-            redirect("/pages/publication?type=success");
+            redirect("/pages/products?type=success");
         }
 
         $head = $this->seo->optimize(
             "Bem vindo ao " . SITE["SHORT_NAME"],
             SITE["DESCRIPTION"],
-            url("pages/publication"),
+            url("pages/banner"),
             ""
         )->render();
 
-        echo $this->view->render("publication/view/create", [
+        echo $this->view->render("products/view/create", [
             "head" => $head
         ]);
     }
@@ -118,10 +117,10 @@ class PublicationController extends Controller
         }
 
         $id = filter_var($data['id'], FILTER_VALIDATE_INT);
-        $publication = (new PublicationModel())->findById($id);
+        $products = (new ProductsModel())->findById($id);
 
-        if (! empty($publication)) {
-            $publication->destroy();
+        if (! empty($products)) {
+            $products->destroy();
         }
 
         $callback['remove'] = true;

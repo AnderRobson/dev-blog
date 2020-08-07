@@ -15,8 +15,8 @@
   },
   "require": {
     "ext-json": "*",
+    "digitalnature/php-ref": "*",
     "coffeecode/datalayer": "^1.0",
-    "coffeecode/paginator": "^1.0",
     "coffeecode/router": "1.0.*",
     "coffeecode/optimizer": "2.0.0",
     "league/plates": "v4.0.0-alpha",

@@ -11,6 +11,9 @@
                         <a class="nav-link" href="<?= url(); ?>">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="<?= url("products"); ?>">Produtos</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="<?= url("publication"); ?>">Publicação</a>
                     </li>
                     <li class="nav-item">

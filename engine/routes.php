@@ -12,8 +12,10 @@
 
     $router->get("/", "Web:home");
 
-    $router->get("{slug_post}", "Web:slugPublication");
     $router->get("{page}/{function}", "Web:pages");
+    $router->get("publication/{slug_post}", "Web:slugPublication");
+    $router->get("products/{slug_post}", "Web:slugProduct");
+    $router->get("products", "Web:products");
     $router->get("publication", "Web:publication");
     $router->get("contact", "Web:contact");
 

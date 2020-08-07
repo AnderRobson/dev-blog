@@ -7,6 +7,7 @@
     use Theme\Pages\Exemplos\ExemploController;
     use Theme\Pages\Home\HomeController;
     use Theme\Pages\Login\LoginController;
+    use Theme\Pages\Products\ProductsController;
     use Theme\Pages\Publication\PublicationController;
     use Theme\Pages\User\UserModel;
 
@@ -34,6 +35,9 @@
                 case 'home':
                     $controller = new HomeController($this->router);
                     break;
+                case 'products':
+                    $controller = new ProductsController($this->router);
+                    break;
                 case 'publication':
                     $controller = new PublicationController($this->router);
                     break;
@@ -42,7 +46,7 @@
             if (! empty($controller)) {
                 $this->controller = $controller;
             } else {
-                printrx(utf8_encode("<h1 style='text-align: center'>Construtor da controller {$controllerName}, n?o implementado</h1>"));
+                printrx(utf8_encode("<h1 style='text-align: center'>Construtor da controller {$controllerName}, não implementado</h1>"));
             }
         }
 
@@ -56,9 +60,36 @@
             $this->pages(["page" => "publication"]);
         }
 
+        public function products()
+        {
+            $this->pages(["page" => "products"]);
+        }
+
         public function contact()
         {
             $this->pages(["page" => "contact"]);
+        }
+
+        public function slugPublication($slug)
+        {
+            $this->pages(
+                [
+                    "page" => "publication",
+                    "function" => "slugPublication"
+                ] + $slug
+            );
+
+        }
+
+        public function slugProduct($slug)
+        {
+            $this->pages(
+                [
+                    "page" => "products",
+                    "function" => "slugProduct"
+                ] + $slug
+            );
+
         }
 
         public function pages(array $data)
@@ -199,15 +230,6 @@
             } else {
                 $this->controller->google();
             }
-        }
-
-        public function slugPublication($slug)
-        {
-            require loadController('publication');
-            $this->setController('publication');
-            $function = 'slugPublication';
-
-            $this->controller->$function($slug);
         }
 
         public function error($data)

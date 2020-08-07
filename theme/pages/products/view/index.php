@@ -1,5 +1,5 @@
 <?php
-$v->layout("banner/view/_theme", ["title" => "Publicações"]); ?>
+$v->layout("products/view/_theme", ["title" => "Produtos"]); ?>
 
 
     <?php if (! empty($banners)):
@@ -10,9 +10,9 @@ $v->layout("banner/view/_theme", ["title" => "Publicações"]); ?>
         <div class="row text-center">
             <?= $pager->renderHeader(); ?>
 
-            <?php if (! empty($publications)):
-                foreach ($publications as $publication) {
-                    $v->insert("elements/publicationCard", ['publication' => $publication]);
+            <?php if (! empty($products)):
+                foreach ($products as $product) {
+                    $v->insert("elements/productCard", ['product' => $product]);
                 }
             endif; ?>
         </div>
