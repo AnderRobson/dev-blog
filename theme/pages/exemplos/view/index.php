@@ -3,7 +3,7 @@ $v->layout("exemplos/view/_theme", ["title" => "Exemplos"]); ?>
 
 <div class="create">
     <div class="form_ajax" style="display: none"></div>
-    <form class="form" name="gallery" action="<?= url("/pages/home/create"); ?>" method="post" enctype="multipart/form-data">
+    <form class="form" name="gallery" action="<?= url("pages/home/create"); ?>" method="post" enctype="multipart/form-data">
         <label>
             <input type="text" name="first_name" placeholder="Nome:"/>
         </label>

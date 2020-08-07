@@ -7,7 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title><?= $title; ?></title>
         <?php
-            echo css("style");
+            echo css("style.min");
             echo bootstrap("dist/css/bootstrap.min.css");
             echo $v->section("css");
         ?>

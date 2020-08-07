@@ -17,4 +17,4 @@ $v->layout("banner/view/_theme", ["title" => "Publicações"]); ?>
         </div>
     </main>
 
-    <?= $pager->render(); ?>
+    <?= $pager->render();

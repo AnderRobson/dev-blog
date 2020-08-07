@@ -9,7 +9,7 @@ foreach($publications as $position => $publication):
             <div class="col-md-7">
                 <h2 class="featurette-heading"><?= $publication->title; ?></h2>
                 <p class="lead"><?= substr($publication->description, 0, 300); ?></p>
-                <p><a class="btn btn-lg btn-primary" href="<?= url("/" . $publication->slug); ?>" role="button">Saiba mais ...</a></p>
+                <p><a class="btn btn-lg btn-primary" href="<?= url($publication->slug); ?>" role="button">Saiba mais ...</a></p>
             </div>
             <div class="col-md-5">
                 <img src="<?= urlFile('publication/' .  $publication->image); ?>" alt="<?= $publication->title; ?>" width="500" height="500">
@@ -20,7 +20,7 @@ foreach($publications as $position => $publication):
             <div class="col-md-7 order-md-2">
                 <h2 class="featurette-heading"><?= $publication->title; ?></h2>
                 <p class="lead"><?= substr($publication->description, 0, 300); ?></p>
-                <p><a class="btn btn-lg btn-primary" href="<?= url("/" . $publication->slug); ?>" role="button">Saiba mais ...</a></p>
+                <p><a class="btn btn-lg btn-primary" href="<?= url($publication->slug); ?>" role="button">Saiba mais ...</a></p>
             </div>
             <div class="col-md-5 order-md-1">
                 <img src="<?= urlFile('publication/' .  $publication->image); ?>" alt="<?= $publication->title; ?>" width="500" height="500">

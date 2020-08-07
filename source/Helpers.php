@@ -161,7 +161,7 @@ function bootstrap(string $file, $time = true)
  * @param $route
  * @param bool $external
  */
-function redirect($route, $external = false)
+function redirect($route = null, $external = false)
 {
     if ($external) {
         header("location: " . $route);

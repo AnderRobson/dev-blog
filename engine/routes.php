@@ -18,6 +18,27 @@
     $router->get("contact", "Web:contact");
 
     /**
+     *  Rotas para login
+     */
+    $router->group(null);
+
+    $router->get("login", "Web:login", "Web.login");
+    $router->post("login", "Web:login", "Web.login");
+    $router->get("register", "Web:register", "Web.register");
+    $router->post("register", "Web:register", "Web.register");
+    $router->get("forget", "Web:forget", "Web.forget");
+    $router->post("forget", "Web:forget", "Web.forget");
+    $router->get("reset/{email}/{forget}", "Web:reset", "Web.reset");
+    $router->post("reset", "Web:resetPassword", "Web.resetPassword");
+    $router->get("sair", "Web:logoff", "Web.logoff");
+    /**
+     * Redes sociais
+     */
+
+    $router->get("facebook", "Web:facebook", "Web.facebook");
+    $router->get("google", "Web:google", "Web.google");
+
+    /**
      * Group Error
      * This monitors all Router errors. Are they: 400 Bad Request, 404 Not Found, 405 Method Not Allowed and 501 Not Implemented
      */

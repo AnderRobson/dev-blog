@@ -68,7 +68,7 @@ class LoginController extends Controller
 
             $_SESSION['user'] = $user->id;
             echo $this->ajaxResponse("redirect", [
-                "url" => url('pages/home')
+                "url" => url()
             ]);
             return;
         }
@@ -122,7 +122,7 @@ class LoginController extends Controller
 
             $_SESSION['user'] = $user->id;
             echo $this->ajaxResponse("redirect", [
-                "url" => url('pages/home')
+                "url" => url()
             ]);
             return;
         }
@@ -348,7 +348,7 @@ class LoginController extends Controller
         $facebook = new Facebook([
             "clientId" => $configure->clientId,
             "clientSecret" => $configure->clientSecret,
-            "redirectUri" => $configure->redirectUri,
+            "redirectUri" => $configure->redirectUri->blog,
             "graphApiVersion" => $configure->graphApiVersion
         ]);
 
@@ -385,7 +385,7 @@ class LoginController extends Controller
         if (! empty($userById)) {
             unset($_SESSION["facebook_auth"]);
             $_SESSION["user"] = $userById->id;
-            redirect("pages/home");
+            redirect();
             return;
         }
 
@@ -422,7 +422,7 @@ class LoginController extends Controller
         $google = new Google([
             "clientId" => $configure->clientId,
             "clientSecret" => $configure->clientSecret,
-            "redirectUri" => $configure->redirectUri
+            "redirectUri" => $configure->redirectUri->blog
         ]);
 
         $error = filter_input(INPUT_GET, "error", FILTER_SANITIZE_STRIPPED);
@@ -458,7 +458,7 @@ class LoginController extends Controller
         if (! empty($userById)) {
             unset($_SESSION["google_auth"]);
             $_SESSION["user"] = $userById->id;
-            redirect("pages/home");
+            redirect();
             return;
         }
 

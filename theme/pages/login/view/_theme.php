@@ -15,19 +15,9 @@
     </head>
     <body>
     <div id="app">
-        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow navbar-expand-md">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="<?= URL_BLOG; ?>"><?= SITE["SHORT_NAME"] ?></a>
-
-            <ul class="navbar-nav px-3 ml-auto">
-                <li class="nav-item">
-                    <?php if (strtolower($title) != "login"): ?>
-                        <a class="nav-link" href="<?= url("login"); ?>">Login</a>
-                    <?php else: ?>
-                        <a class="nav-link" href="<?= url("register"); ?>">Registrar-se</a>
-                    <?php endif; ?>
-                </li>
-            </ul>
-        </nav>
+        <?php
+            $v->insert("painel/view/elements/navbar");
+        ?>
 
         <main class="py-4" style="margin-top: 10%">
             <div class="ajax_load">

@@ -3,6 +3,6 @@
     <div class="col p-4 d-flex flex-column position-static card-body">
         <strong class="d-inline-block mb-2 text-primary"><?= $publication->title; ?></strong>
         <div class="mb-1 text-muted"><?=  substr($publication->description, 0, 100);?></div>
-        <a href="<?=  url("/" . $publication->slug);?>" class="stretched-link">Continue reading</a>
+        <a href="<?=  url($publication->slug);?>" class="stretched-link">Continue reading</a>
     </div>
 </div>

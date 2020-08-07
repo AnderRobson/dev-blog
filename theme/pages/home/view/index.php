@@ -9,7 +9,13 @@ $v->layout("home/view/_theme", ["title" => "Home"]); ?>
     ================================================== -->
     <!-- Wrap the rest of the page in another container to center all the content. -->
 
-    <div class="container marketing">
+<div class="container marketing">
+    <div class="row">
+        <div class="col-12 text-center my-5">
+            <h1 class="display-3">Seja bem vindo</h1>
+            <p>Seja bem vindo ao site dev, espero que você goste</p>
+        </div>
+    </div>
 
     <!-- Three columns of text below the carousel -->
     <div class="row">
@@ -34,9 +40,9 @@ $v->layout("home/view/_theme", ["title" => "Home"]); ?>
     </div><!-- /.row -->
 
 
-    <!-- START THE FEATURETTES -->
+                <!-- START THE FEATURETTES -->
 
-    <hr class="featurette-divider">
+                <hr class="featurette-divider">
 
     <?php if (! empty($publications)):
             $v->insert("elements/publication", ['publications' => $publications]);

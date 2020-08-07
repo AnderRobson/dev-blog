@@ -4,7 +4,7 @@ $v->layout("banner/view/_theme", ["title" => "Cadastrando Publicação"]); ?>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Cadastrando Publicação</h1>
     </div>
-    <form action="<?= url("/pages/publication/create"); ?>" method="post"  enctype="multipart/form-data">
+    <form action="<?= url("pages/publication/create"); ?>" method="post"  enctype="multipart/form-data">
         <div class="form-group">
             <label for="exampleFormControlInput1">Título</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" maxlength="100" name="title">
