@@ -60,7 +60,11 @@ abstract class Controller
 
     public function getConfigure(string $name): ?\stdClass
     {
-        return (new Configures())->getConfigure($name);
+        if (! empty($this->configures)) {
+            $this->configures = (new Configures())->getConfigure($name);
+        }
+
+        return $this->configures;
     }
 
     /**

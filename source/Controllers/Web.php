@@ -2,74 +2,76 @@
 
     namespace Source\Controllers;
 
+    use CoffeeCode\Router\Router;
     use League\Plates\Engine;
-    use Theme\Pages\Banner\BannerController;
-    use Theme\Pages\Exemplos\ExemploController;
+    use Theme\Pages\Checkout\CheckoutController;
     use Theme\Pages\Home\HomeController;
     use Theme\Pages\Login\LoginController;
     use Theme\Pages\Products\ProductsController;
     use Theme\Pages\Publication\PublicationController;
     use Theme\Pages\User\UserModel;
 
-    class Web
+    /**
+     * Class Web
+     * @package Source\Controllers
+     *
+     * @property Engine $controller
+     * @property Router $router
+     */
+    class Web extends Controller
     {
+        /** @var UserModel */
+        protected $user;
 
         /** @var Engine  */
         private $controller;
 
-        /** @var Router */
-        private $router;
-
+        /**
+         * Web constructor.
+         * @param $router
+         */
         public function __construct($router)
         {
-            $this->router = $router;
+            parent::__construct($router);
         }
 
         /**
-         * @param Engine $controller
+         *  Responsavel por carregar a página de home.
          */
-        public function setController($controllerName): void
-        {
-            $controller = null;
-            switch ($controllerName) {
-                case 'home':
-                    $controller = new HomeController($this->router);
-                    break;
-                case 'products':
-                    $controller = new ProductsController($this->router);
-                    break;
-                case 'publication':
-                    $controller = new PublicationController($this->router);
-                    break;
-            }
-
-            if (! empty($controller)) {
-                $this->controller = $controller;
-            } else {
-                printrx(utf8_encode("<h1 style='text-align: center'>Construtor da controller {$controllerName}, não implementado</h1>"));
-            }
-        }
-
         public function home()
         {
             $this->pages(["page" => "home"]);
         }
 
+        /**
+         *  Responsavel por carregar a listagem de publicações.
+         */
         public function publication()
         {
             $this->pages(["page" => "publication"]);
         }
 
+        /**
+         *  Responsavel por carregar a listagem de produtos.
+         */
         public function products()
         {
             $this->pages(["page" => "products"]);
         }
 
+        /**
+         *  Responsavel por carregar página de contato.
+         */
         public function contact()
         {
             $this->pages(["page" => "contact"]);
         }
 
+        /**
+         *  Responsavel por fazer busca pelo slug de uma publicação.
+         *
+         * @param $slug
+         */
         public function slugPublication($slug)
         {
             $this->pages(
@@ -81,6 +83,11 @@
 
         }
 
+        /**
+         *  Responsavel por fazer busca pelo slug de um produto.
+         *
+         * @param $slug
+         */
         public function slugProduct($slug)
         {
             $this->pages(
@@ -89,9 +96,32 @@
                     "function" => "slugProduct"
                 ] + $slug
             );
-
         }
 
+        /**
+         * Responsavel por fazer a chamada das páginas do carrinho.
+         *
+         * @param array $data
+         */
+        public function checkout($data = [])
+        {
+            if (empty($data['checkout'])) {
+                $data['checkout'] = 'index';
+            }
+
+            $this->pages(
+                [
+                    "page" => "checkout",
+                    "function" => $data['checkout'] ?: $data
+                ]
+            );
+        }
+
+        /**
+         *  Responsavel por fazer direcionamento para controller desejada.
+         *
+         * @param array $data
+         */
         public function pages(array $data)
         {
             require loadController($data['page']);
@@ -109,6 +139,11 @@
             }
         }
 
+        /**
+         *  Responsavel por carregar página de login.
+         *
+         * @param array|null $data
+         */
         public function login(array $data = null): void
         {
             if (! empty($_SESSION['user']) && $this->user = (new UserModel())->findById($_SESSION['user'])) {
@@ -126,7 +161,7 @@
         }
 
         /**
-         *
+         *  Responsavel por deslogar usuário.
          */
         public function logoff(): void
         {
@@ -139,7 +174,7 @@
         }
 
         /**
-         *
+         *  Responsavel por realizar a solicitação de recuperação de senha.
          */
         public function forget(array $data = null): void
         {
@@ -157,6 +192,11 @@
             }
         }
 
+        /**
+         *  Responsavel por resetar senhar, acessando url enviado para o e-mail.
+         *
+         * @param array $data
+         */
         public function reset(array $data): void
         {
             if (! empty($_SESSION['user']) && $this->user = (new UserModel())->findById($_SESSION['user'])) {
@@ -169,6 +209,11 @@
             $this->controller->reset($data);
         }
 
+        /**
+         *  Responsavel por salvar nova senha pos resetar a senha.
+         *
+         * @param array $data
+         */
         public function resetPassword(array $data): void
         {
             if (! empty($_SESSION['user']) && $this->user = (new UserModel())->findById($_SESSION['user'])) {
@@ -182,7 +227,7 @@
         }
 
         /**
-         *
+         *  Responsavel por realizar o registro de um novo usuário.
          */
         public function register(array $data = null): void
         {
@@ -200,6 +245,11 @@
             }
         }
 
+        /**
+         * Responsavel por realizar login via autenticação Facebook.
+         *
+         * @param array|null $data
+         */
         public function facebook(array $data = null): void
         {
             if (! empty($_SESSION['user']) && $this->user = (new UserModel())->findById($_SESSION['user'])) {
@@ -216,6 +266,11 @@
             }
         }
 
+        /**
+         * Responsavel por realizar login via autenticação Google.
+         *
+         * @param array|null $data
+         */
         public function google(array $data = null): void
         {
             if (! empty($_SESSION['user']) && $this->user = (new UserModel())->findById($_SESSION['user'])) {
@@ -232,8 +287,43 @@
             }
         }
 
+        /**
+         *  Responsavel por exibir página de erro.
+         *
+         * @param $data
+         */
         public function error($data)
         {
             echo "<h1 style='text-align: center'>Web Error " . $data['errcode'] . "</h1>";
+        }
+
+        /**
+         * Responsavel por instanciar Controller desejada para carregar suas view ou acessar alguma função expecifica via url.
+         *
+         * @param Engine $controller
+         */
+        private function setController($controllerName): void
+        {
+            $controller = null;
+            switch ($controllerName) {
+                case 'home':
+                    $controller = new HomeController($this->router);
+                    break;
+                case 'products':
+                    $controller = new ProductsController($this->router);
+                    break;
+                case 'publication':
+                    $controller = new PublicationController($this->router);
+                    break;
+                case 'checkout':
+                    $controller = new CheckoutController($this->router);
+                    break;
+            }
+
+            if (! empty($controller)) {
+                $this->controller = $controller;
+            } else {
+                printrx(utf8_encode("<h1 style='text-align: center'>Construtor da controller {$controllerName}, não implementado</h1>"));
+            }
         }
     }

@@ -11,9 +11,19 @@ $v->layout("products/view/_theme", ["title" => "Produtos"]); ?>
             <?= $pager->renderHeader(); ?>
 
             <?php if (! empty($products)):
-                foreach ($products as $product) {
-                    $v->insert("elements/productCard", ['product' => $product]);
+                foreach ($products as $position => $product) {
+                    $v->insert("elements/productCard",
+                        [
+                            'product' => $product,
+                            'position' => $position,
+                            'productImages' => $product->getImages()
+                        ]
+                    );
                 }
             endif; ?>
         </div>
     </main>
+<?php
+    $v->start('css');
+        echo css("carousel");
+    $v->end();

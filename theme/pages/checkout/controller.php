@@ -1,20 +1,35 @@
 <?php
 
-namespace Theme\Pages\Products;
+namespace Theme\Pages\Checkout;
 
 use Source\Libary\Paginator;
 use Source\Controllers\Controller;
 use Theme\Pages\Banner\BannerModel;
+use Theme\Pages\Products\ProductsModel;
 
 /**
- * Class ProductsController
- * @package Theme\Pages\Products
+ * Class CheckoutController
+ * @package Theme\Pages\Checkout
  *
  * @property ProductsModel $products
  *
  */
-class ProductsController extends Controller
+class CheckoutController extends Controller
 {
+    /**
+     *  Identificador de Banner do carrinho.
+     */
+    private const BANNER_TYPE_CHECKOUT = 4;
+
+    /**
+     *  Limit de Banner no carrinho.
+     */
+    private const BANNER_LIMIT_CHECKOUT = 2;
+
+    /**
+     *  Status ativo
+     */
+    private const STATUS_ACTIVE = 1;
 
     public function __construct($router)
     {
@@ -27,45 +42,37 @@ class ProductsController extends Controller
         $head = $this->seo->optimize(
             "Bem vindo ao " . SITE["SHORT_NAME"],
             SITE["DESCRIPTION"],
-            url("pages/products"),
+            url("carrinho"),
             ""
         )->render();
 
-        $products = (new ProductsModel())->find('status = 1')->order('id');
-        $banners = (new BannerModel())->find('type = 2')->order('id')->limit(3);
+        $products = (new ProductsModel())->find('status = :status', 'status=' . SELF::STATUS_ACTIVE)->order('id');
 
-        $page = isset($data["page"]) ? $data["page"] : 1;
-        $limit = isset($data["limit"]) ? $data["limit"] : 20;
-        $pager = new Paginator(url('products?' . (isset($data["limit"]) ? 'limit=' . $limit . '&' : '') . 'page='));
-        $pager->pager($products->count(), $limit, $page, 2);
-
-        echo $this->view->render("products/view/index", [
-            "banners" => $banners->fetch(true),
-            "products" => $products->limit($pager->limit())->offset($pager->offset())->fetch(true),
-            "pager" => $pager,
+        echo $this->view->render("checkout/view/index", [
+            "banners" => (new BannerModel())->find('type = :type', 'type=' . SELF::BANNER_TYPE_CHECKOUT)->order('id')->limit(SELF::BANNER_LIMIT_CHECKOUT)->fetch(true),
+            "products" => $products->fetch(true),
             "head" => $head
         ]);
     }
 
-    public function slugProduct($slug): void
+    public function pagamento(): void
     {
-        $slug = filter_var_array($slug, FILTER_SANITIZE_STRING);
-
-        if (empty($slug['slug_product']) || ! $product = (new ProductsModel())->find('slug = "' . $slug['slug_product'] . '"')->fetch()) {
-            redirect("products");
-            return;
-        }
-
+        $data = filter_var_array($_GET, FILTER_SANITIZE_STRING);
         $head = $this->seo->optimize(
             "Bem vindo ao " . SITE["SHORT_NAME"],
             SITE["DESCRIPTION"],
-            url("pages/products/" . $product->slug),
+            url("carrinho/pagamento"),
             ""
         )->render();
 
-        echo $this->view->render("products/view/product", [
-            "banners" => (new BannerModel())->find('type = 3')->order('id')->limit(3)->fetch(true),
-            "product" => $product,
+        $this->user->person->getAddress();
+        $this->user->person->address->getState();
+
+        $products = (new ProductsModel())->find('status = :status', 'status=' . SELF::STATUS_ACTIVE)->order('id');
+
+        echo $this->view->render("checkout/view/payment", [
+            "banners" => (new BannerModel())->find('type = :type', 'type=' . SELF::BANNER_TYPE_CHECKOUT)->order('id')->limit(SELF::BANNER_LIMIT_CHECKOUT)->fetch(true),
+            "products" => $products->fetch(true),
             "head" => $head
         ]);
     }

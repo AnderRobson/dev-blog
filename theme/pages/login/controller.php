@@ -86,6 +86,8 @@ class LoginController extends Controller
     }
 
     /**
+     *  Responsavel por realizar o registro de um novo usuário.
+     *
      * @param array|null $data
      */
     public function register(array $data = null): void

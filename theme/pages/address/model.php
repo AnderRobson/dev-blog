@@ -16,7 +16,14 @@ class AddressModel extends Model
 {
     public function __construct()
     {
-        parent::__construct("address", ["street", "number", "district", "city", "id_state"]);
+        parent::__construct("address", ["street", "number", "district", "city", "zip_code", "id_state"]);
+    }
+
+    public function getState()
+    {
+        $this->state = $this->connect->query("SELECT * FROM states WHERE id = " . $this->id_state)->fetch();
+
+        return $this;
     }
 
     public function getAllState()
@@ -38,6 +45,7 @@ class AddressModel extends Model
         $this->number = $address->number;
         $this->district = $address->district;
         $this->city = $address->city;
+        $this->zip_code = $address->zip_code;
         $this->id_state = $address->id_state;
         $this->updated_at = $address->updated_at;
         $this->created_at = $address->created_at;

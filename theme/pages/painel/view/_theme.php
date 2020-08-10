@@ -26,8 +26,12 @@
         </main>
         <?php
             echo js("jquery");
+            echo plugins("feather-icons/feather.min.js");
             echo bootstrap("dist/js/bootstrap.bundle.min.js");
             echo $v->section("js");
         ?>
+        <script>
+            feather.replace()
+        </script>
     </body>
 </html>

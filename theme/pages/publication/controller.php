@@ -4,8 +4,7 @@ namespace Theme\Pages\Publication;
 
 use Source\Libary\Paginator;
 use Source\Controllers\Controller;
-use Source\Controllers\Upload;
-use Theme\Pages\Home\HomeModel;
+use Theme\Pages\Banner\BannerModel;
 
 /**
  * Class PublicationController
@@ -33,7 +32,7 @@ class PublicationController extends Controller
         )->render();
 
         $publications = (new PublicationModel())->find()->order('id');
-        $banners = (new HomeModel())->find('type = 2')->order('id')->limit(3);
+        $banners = (new BannerModel())->find('type = 2')->order('id')->limit(3);
 
         $page = isset($data["page"]) ? $data["page"] : 1;
         $limit = isset($data["limit"]) ? $data["limit"] : 20;
@@ -58,7 +57,7 @@ class PublicationController extends Controller
         )->render();
 
         echo $this->view->render("publication/view/publication", [
-            "banners" => (new HomeModel())->find('type = 2')->order('id')->limit(3)->fetch(true),
+            "banners" => (new BannerModel())->find('type = 2')->order('id')->limit(3)->fetch(true),
             "publications" => (new PublicationModel())->find('slug = "' . $slug['slug_post']. '"')->limit(1)->fetch(true),
             "head" => $head
         ]);
@@ -70,7 +69,7 @@ class PublicationController extends Controller
             $data = filter_var_array($data, FILTER_SANITIZE_STRING);
 
             if (empty($data["title"]) || empty($data["description"]) || ! empty($_FILES["file"]["error"])) {
-                redirect("/pages/publication?type=error");
+                redirect("pages/publication");
                 return;
             }
 
@@ -86,17 +85,17 @@ class PublicationController extends Controller
                 $nameImage = $upload->upload();
 
                 if (! $nameImage) {
-                    redirect("/pages/publication?type=error");
+                    redirect("pages/publication");
                 }
 
                 $publication->image = $nameImage;
             }
 
             if (! $publication->save()) {
-                redirect("/pages/publication?type=error");
+                redirect("pages/publication");
             }
 
-            redirect("/pages/publication?type=success");
+            redirect("pages/publication");
         }
 
         $head = $this->seo->optimize(

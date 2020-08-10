@@ -3,6 +3,7 @@
 namespace Theme\Pages\Home;
 
 use Source\Controllers\Controller;
+use Theme\Pages\Banner\BannerModel;
 use Theme\Pages\Publication\PublicationModel;
 use Theme\Pages\User\UserModel;
 
@@ -23,7 +24,7 @@ class HomeController extends Controller
         )->render();
 
         echo $this->view->render("home/view/index", [
-            "banners" => (new HomeModel())->find('type = 1')->order('id')->limit(3)->fetch(true),
+            "banners" => (new BannerModel())->find('type = 1')->order('id')->limit(3)->fetch(true),
             "publications" => (new PublicationModel())->find()->order('id')->limit(3)->fetch(true),
             "head" => $head
         ]);
@@ -44,7 +45,7 @@ class HomeController extends Controller
         $user->last_name = $userData["last_name"];
         $user->save();
 
-        $callback["message"] = message("Usuário cadastrado com sucesso !", "success");
+        $callback["message"] = message("Usuï¿½rio cadastrado com sucesso !", "success");
         $callback["user"] = $this->view->render("home/view/elements/user", ["user" => $user]);
 
         echo json_encode($callback);
@@ -57,7 +58,7 @@ class HomeController extends Controller
         }
 
         $id = filter_var($data['id'], FILTER_VALIDATE_INT);
-        $user = (new HomeModel())->findById($id);
+        $user = (new BannerModel())->findById($id);
 
         if (! empty($user)) {
             $user->destroy();
