@@ -89,14 +89,22 @@ abstract class Model extends DataLayer
         $filds = null;
         $joins = [];
         $filters = [];
+        $limit = null;
 
         foreach ($data as $key => $value) {
-            if ($key == "select") {
-                $filds = $value;
-            } elseif ($key == "join") {
-                $joins = $value;
-            } elseif ($key == "where") {
-                $filters = $value;
+            switch ($key) {
+                case 'select':
+                    $filds = $value;
+                    break;
+                case 'join':
+                    $joins = $value;
+                    break;
+                case 'where':
+                    $filters = $value;
+                    break;
+                case 'limit':
+                    $limit = $value;
+                    break;
             }
         }
 
@@ -132,12 +140,22 @@ abstract class Model extends DataLayer
             $query = "SELECT {$fild} FROM {$this->getTable()} AS " . ucfirst($this->getTable()) . " {$join}";
         }
 
+        if (! is_null($limit)) {
+            $forceArray = false;
+            $query .= ' limit ' . $limit;
+        }
+
         if (isset($data['sql']) && $data['sql']) {
             return $query;
         }
 
         try {
-            $return = $this->connect->query(trim($query))->fetchAll();
+            if (! is_null($limit) && (int) $limit == 1) {
+                $return = $this->connect->query(trim($query))->fetch();
+            } else {
+                $return = $this->connect->query(trim($query))->fetchAll();
+            }
+
         } catch (\Exception $exception) {
             $return = null;
         }

@@ -24,7 +24,7 @@ $v->layout("checkout/view/_theme", ["title" => "Carrinho"]); ?>
                                 <h6 class="my-0">Frete</h6>
                                 <small class="text-muted">Valor Frete</small>
                             </div>
-                            <span class="text-muted">R$ 16.50</span>
+                            <span class="text-muted"><?= formatMoney($cart->getFreight()->getValue()); ?></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between bg-light">
                             <div class="text-success">
@@ -35,11 +35,11 @@ $v->layout("checkout/view/_theme", ["title" => "Carrinho"]); ?>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <span>Sub Total</span>
-                            <strong>R$ 136.89</strong>
+                            <span><?= formatMoney($cart->getSubTotal()); ?></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <span>Valor a Pagar</span>
-                            <strong>R$ 153.39</strong>
+                            <strong><?= formatMoney($cart->getTotal()); ?></strong>
                         </li>
                     </ul>
 
@@ -47,13 +47,13 @@ $v->layout("checkout/view/_theme", ["title" => "Carrinho"]); ?>
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Cupom de Desconto">
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-primary">Aplicar</button>
+                                <button type="submit" class="btn btn-danger">Aplicar</button>
                             </div>
                         </div>
                     </form>
 
                     <form class="card p-2" action="<?= url("carrinho/pagamento"); ?>">
-                        <button type="submit" class="btn btn-success">Pagamento</button>
+                        <button type="submit" class="btn btn-danger">Pagamento</button>
                     </form>
                 </div>
                 <div class="col-md-8 order-md-1">
@@ -75,7 +75,7 @@ $v->layout("checkout/view/_theme", ["title" => "Carrinho"]); ?>
                                             "checkout/view/elements/productCart",
                                             [
                                                 'product' => $product,
-                                                'productImages' => $product->getImages()
+                                                'productImages' => $product->getImages(1)
                                             ]
                                         );
                                     }

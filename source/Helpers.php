@@ -47,7 +47,7 @@ function loadController(string $controller)
 function urlFile(string $path, bool $theme = false): string
 {
     if ($theme) {
-        return URL_BLOG . DS . $path;
+        return URL_BLOG . '/' . $path;
     }
 
     return URL_ADMIN . "/theme/upload/" . $path;
@@ -248,4 +248,11 @@ function mountFilters(array $filters): array
         "keysFilter" => implode(" AND ", $return["keysFilter"]),
         "valueToFilter" => implode(" AND ", $return["valueToFilter"]),
     ];
+}
+
+function formatMoney(float $value, bool $full = true)
+{
+    $value = number_format($value, 2, ',', '.');
+
+    return ($full ? "R$ " : '') . $value;
 }

@@ -3,6 +3,7 @@
     namespace Theme\Pages\Products;
 
     use Source\Models\Model;
+    use Theme\Pages\Stock\StockModel;
 
     class ProductsModel extends Model
     {
@@ -13,17 +14,21 @@
             parent::__construct("products", ["title", "slug", "code", "description"]);
         }
 
-        public function getImages()
+        public function getImages($limit = null)
         {
             $idProduct = $this->id;
 
             $this->setTable("product_images");
 
-            $images = $this->search([
-                'where' => [
-                    'Product_images.id_product' => $idProduct,
-                ]
-            ], true);
+            $options['where'] = [
+                'Product_images.id_product' => $idProduct,
+            ];
+
+            if (! is_null($limit)) {
+                $options['limit'] = $limit;
+            }
+
+            $images = $this->search($options, true);
 
             $this->reset();
 
@@ -35,5 +40,11 @@
                 ];
             }
             return $images;
+        }
+
+        public function getStock()
+        {
+            $this->stock = (new StockModel())->find('id_product = :id_product', 'id_product=' . $this->id)->fetch();
+            return $this->stock;
         }
     }

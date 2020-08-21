@@ -7,7 +7,7 @@
     <div class="carousel-inner">
         <?php foreach($banners as $key => $banner): ?>
             <div class="carousel-item <?= $key == 0 ? 'active' : ''; ?>">
-                <img src="<?= urlFile('banner/' . $banner->image); ?>" alt="<?= $banner->title ?>" class="img-fluid d-block">
+                <img src="<?= urlFile('banner/' . $banner->image); ?>" alt="<?= $banner->title ?>" class="img-fluid d-block" style="object-fit: cover">
                 <div class="container">
                     <div class="carousel-caption text-left text-dark">
                         <h1><?= $banner->title; ?></h1>

@@ -2,6 +2,7 @@
 
 namespace Theme\Pages\Checkout;
 
+use Source\Libary\Cart;
 use Source\Libary\Paginator;
 use Source\Controllers\Controller;
 use Theme\Pages\Banner\BannerModel;
@@ -46,11 +47,9 @@ class CheckoutController extends Controller
             ""
         )->render();
 
-        $products = (new ProductsModel())->find('status = :status', 'status=' . SELF::STATUS_ACTIVE)->order('id');
-
         echo $this->view->render("checkout/view/index", [
             "banners" => (new BannerModel())->find('type = :type', 'type=' . SELF::BANNER_TYPE_CHECKOUT)->order('id')->limit(SELF::BANNER_LIMIT_CHECKOUT)->fetch(true),
-            "products" => $products->fetch(true),
+            "products" => $this->cart->getCart(true),
             "head" => $head
         ]);
     }
@@ -139,5 +138,23 @@ class CheckoutController extends Controller
 
         $callback['remove'] = true;
         echo json_encode($callback);
+    }
+
+    public function do_add()
+    {
+        $data = filter_var_array($_GET, FILTER_SANITIZE_STRING);
+
+        unset($data['route']);
+        $this->cart->add($data);
+
+        $callback['cart'] = $this->cart->getQuantityItems();
+        echo json_encode($callback);
+    }
+
+    public function do_destroy()
+    {
+        $this->cart->destroy();
+
+        redirect();
     }
 }

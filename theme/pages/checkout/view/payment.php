@@ -81,7 +81,7 @@ $v->layout("checkout/view/_theme", ["title" => "Pagamento"]); ?>
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Cupom de Desconto">
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary">Aplicar</button>
+                                    <button type="submit" class="btn btn-danger">Aplicar</button>
                                 </div>
                             </div>
                         </form>
@@ -149,14 +149,14 @@ $v->layout("checkout/view/_theme", ["title" => "Pagamento"]); ?>
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="CEP">
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-primary">Aplicar</button>
+                                <button type="submit" class="btn btn-danger">Aplicar</button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="col-md-4 order-md-3 mb-5">
                     <form class="card p-2" action="<?= url("carrinho/pagamento"); ?>">
-                        <button type="submit" class="btn btn-success">Pagamento</button>
+                        <button type="submit" class="btn btn-danger">Pagamento</button>
                     </form>
                 </div>
         </div>

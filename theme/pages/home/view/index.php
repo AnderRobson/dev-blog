@@ -9,40 +9,43 @@ $v->layout("home/view/_theme", ["title" => "Home"]); ?>
     ================================================== -->
     <!-- Wrap the rest of the page in another container to center all the content. -->
 
-<div class="container marketing">
+<div class="marketing">
+    <div class="container">
     <div class="row">
         <div class="col-12 text-center my-5">
             <h1 class="display-3">Seja bem vindo</h1>
             <p>Seja bem vindo ao site dev, espero que você goste</p>
         </div>
     </div>
+    </div>
 
     <!-- Three columns of text below the carousel -->
-    <div class="row">
-        <div class="col-lg-4">
-            <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-            <h2>Heading</h2>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-    </div><!-- /.row -->
+    <?php foreach($bannersProducts as $key => $banner): ?>
+<!--            <img src="" alt="" class="img-fluid d-block" style="object-fit: cover">-->
+            <div class="jumbotron" style="background-image: url(<?= urlFile('banner/' . $banner->image); ?>); background-size: 100%; height: 750px; object-fit: cover;">
+                <div class="container">
+                    <div class="row text-center">
 
+                        <?php
+                        $productsBanner = $banner->getProducts();
 
-                <!-- START THE FEATURETTES -->
+                        if (! empty($productsBanner)):
+                            foreach ($productsBanner as $position => $product) {
+                                $v->insert("elements/productCard",
+                                    [
+                                        'product' => $product->product,
+                                        'position' => $position,
+                                        'productImages' => $product->product->getImages()
+                                    ]
+                                );
+                            }
+                        endif; ?>
+                    </div>
+                </div>
+            </div>
 
-                <hr class="featurette-divider">
+    <?php endforeach; ?>
+
 
     <?php if (! empty($publications)):
             $v->insert("elements/publication", ['publications' => $publications]);

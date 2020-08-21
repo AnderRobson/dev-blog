@@ -4,15 +4,15 @@
     }
 
     if (!defined('URL_BASE')) {
-        define('URL_BASE', 'http://' . $_SERVER['HTTP_HOST'] . DS . SITE["PATH"]);
+        define('URL_BASE', 'http://' . $_SERVER['HTTP_HOST'] . '/' . SITE["PATH"]);
     }
 
     if (!defined('URL_ADMIN')) {
-        define('URL_ADMIN', 'http://' . $_SERVER['HTTP_HOST'] . DS . 'dev-admin');
+        define('URL_ADMIN', 'http://' . $_SERVER['HTTP_HOST'] . '/' . 'dev-admin');
     }
 
     if (!defined('URL_BLOG')) {
-        define('URL_BLOG', 'https://' . $_SERVER['HTTP_HOST'] . DS . SITE["PATH"]);
+        define('URL_BLOG', 'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE["PATH"]);
     }
 
     if (!defined('BASE_PATH')) {
@@ -55,5 +55,8 @@
     }
 
     // Session Start
+    ob_start();
     session_start();
-    require(ENGINE . DS . 'routes.php');
+        require ENGINE . DS . 'routes.php';
+    ob_end_flush();
+

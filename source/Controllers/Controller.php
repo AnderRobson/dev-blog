@@ -7,6 +7,7 @@ namespace Source\Controllers;
 use CoffeeCode\Optimizer\Optimizer;
 use CoffeeCode\Router\Router;
 use League\Plates\Engine;
+use Source\Libary\Cart;
 use Source\Models\Configures;
 use Theme\Pages\User\UserModel;
 
@@ -30,6 +31,9 @@ abstract class Controller
     /** @var UserModel */
     protected $user;
 
+    /** @var Cart  */
+    protected $cart;
+
     /** @var Configures */
     private $configures;
 
@@ -40,8 +44,12 @@ abstract class Controller
     public function __construct($router)
     {
         $this->router = $router;
+        $this->cart = new Cart();
         $this->view = Engine::create(ROOT . DS . "theme" . DS . "pages", "php");
-        $this->view->addData(["router" => $this->router]);
+        $this->view->addData([
+            "router" => $this->router,
+            "cart" => $this->cart
+        ]);
 
         $this->seo = new Optimizer();
 

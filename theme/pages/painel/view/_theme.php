@@ -7,8 +7,10 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title><?= $title; ?></title>
         <?php
+            echo js("jquery");
             echo css("style.min");
             echo bootstrap("dist/css/bootstrap.min.css");
+            echo js("cart");
             echo $v->section("css");
         ?>
     </head>
@@ -25,7 +27,6 @@
             ?>
         </main>
         <?php
-            echo js("jquery");
             echo plugins("feather-icons/feather.min.js");
             echo bootstrap("dist/js/bootstrap.bundle.min.js");
             echo $v->section("js");

@@ -1,9 +1,9 @@
 <tr>
     <td>
-        <img src="<?= urlFile('product/semimage.png')?>" class="img-fluid img-thumbnail" alt="<?= $product->title; ?>" style="width: 100px">
+        <img src="<?= urlFile('product/' . $productImages->image); ?>" class="img-fluid img-thumbnail" alt="<?= $product->title; ?>" style="width: 100px; height: 80px;">
     </td>
-    <th><?= $product->code; ?></th>
+    <th><?= $product->stock->code; ?></th>
     <td class="text-left"><?= $product->title; ?></td>
-    <td><?= rand(1, 10); ?></td>
-    <td><?= $product->valor; ?></td>
+    <td><?= $cart->getQuantityItems($product->stock->id) ?></td>
+    <td><?= formatMoney($product->getStock()->current_value); ?></td>
 </tr>

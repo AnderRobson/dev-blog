@@ -22,8 +22,8 @@
                 </ul>
                 <ul class="navbar-nav px-3 ml-auto">
                     <a href="<?= url('carrinho')?>">
-                        <button type="button" class="btn btn-primary">
-                            <i data-feather="shopping-cart"></i><span class="ml-3 badge badge-light bg-light text-primary">9</span>
+                        <button type="button" class="btn btn-danger">
+                            <i data-feather="shopping-cart"></i><span class="ml-3 badge badge-light bg-light text-primary" id="cart"><?= $cart->getQuantityItems()?></span>
                             <span class="sr-only">unread messages</span>
                         </button>
                     </a>
