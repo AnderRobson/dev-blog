@@ -161,9 +161,13 @@ function bootstrap(string $file, $time = true)
  * @param $route
  * @param bool $external
  */
-function redirect($route = null, $external = false)
+function redirect(string $route = null, bool $external = false, string $redirectBack = null)
 {
-    if ($external) {
+    if (! empty($redirectBack)) {
+        $_SESSION['redirectBack'] = $redirectBack;
+    }
+
+    if (! empty($external)) {
         header("location: " . $route);
         exit;
     }

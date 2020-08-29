@@ -1,5 +1,6 @@
+let payment =
 $(function () {
-    $("#formulario").submit(function (e) {
+    $("#payment").submit(function (e) {
         e.preventDefault();
 
         let form = $(this);
@@ -16,21 +17,24 @@ $(function () {
             },
             success: function (response) {
                 ajax_load("close");
-
-                if (response.message) {
-                    var view = generateMessage(response.message);
-                    $(".form_ajax").html(view);
-                    $(".form_ajax").show();
-                    return;
-                }
-
-                if (response.redirect) {
-                    window.location.href = response.redirect.url;
-                }
             }
+        }).fail(function () {
+            ajax_load("close");
         });
     });
 
+    function updatePrices(data) {
+        //Valor do frete
+        $("#freight_value_cart").val(data.freight.value);
+        $("#freight_value").val(data.freight.value);
+
+        //Valor total do pedido
+        $("#total_amount").val(data.cart.total_amount);
+
+        //Sub-total total do pedido
+        $("#subtotal").val(data.cart.subtotal);
+
+    }
     function ajax_load(action) {
         var load_div = $(".ajax_load");
         if (action === "open") {
@@ -42,7 +46,7 @@ $(function () {
 
     function generateMessage(data) {
         return '<div class="alert alert-' + data.type + ' alert-dismissible fade show" role="alert">' +
-                    data.message +
-                '</div>';
+            data.message +
+            '</div>';
     }
 });

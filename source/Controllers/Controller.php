@@ -25,6 +25,8 @@ abstract class Controller
     /** @var Router */
     protected $router;
 
+    private $redirectBack;
+
     /** @var Optimizer */
     protected $seo;
 
@@ -44,6 +46,11 @@ abstract class Controller
     public function __construct($router)
     {
         $this->router = $router;
+
+        if (! empty($_SESSION['redirectBack'])) {
+            $this->redirectBack = $_SESSION['redirectBack'];
+        }
+
         $this->cart = new Cart();
         $this->view = Engine::create(ROOT . DS . "theme" . DS . "pages", "php");
         $this->view->addData([
@@ -66,9 +73,27 @@ abstract class Controller
         }
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRedirectBack()
+    {
+        if (
+            ! empty($this->redirectBack)
+            &&
+            ! empty($_SESSION['redirectBack'])
+            &&
+            $this->redirectBack == $_SESSION['redirectBack']
+        ) {
+            unset($_SESSION['redirectBack']);
+        }
+
+        return $this->redirectBack;
+    }
+
     public function getConfigure(string $name): ?\stdClass
     {
-        if (! empty($this->configures)) {
+        if (empty($this->configures)) {
             $this->configures = (new Configures())->getConfigure($name);
         }
 

@@ -105,15 +105,14 @@
          */
         public function checkout($data = [])
         {
-            if (empty($data['checkout'])) {
-                $data['checkout'] = 'index';
+            if (empty($data['function'])) {
+                $data['function'] = 'index';
             }
 
             $this->pages(
                 [
-                    "page" => "checkout",
-                    "function" => $data['checkout'] ?: $data
-                ]
+                    "page" => "checkout"
+                ] + $data
             );
         }
 
@@ -131,11 +130,14 @@
             unset($data['page']);
             unset($data['function']);
             unset($data['action']);
-
-            if (!empty($data)) {
-                $this->controller->$function($data);
+            if (method_exists($this->controller, $function)) {
+                if (!empty($data)) {
+                    $this->controller->$function($data);
+                } else {
+                    $this->controller->$function();
+                }
             } else {
-                $this->controller->$function();
+                redirect('ooops/404');
             }
         }
 

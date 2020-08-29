@@ -15,7 +15,8 @@
     $router->get("{page}/{function}", "Web:pages");
     $router->get("publication/{slug_post}", "Web:slugPublication");
     $router->get("products/{slug_product}", "Web:slugProduct");
-    $router->get("carrinho/{checkout}", "Web:checkout");
+    $router->get("carrinho/{function}", "Web:checkout");
+    $router->post("carrinho/{function}", "Web:checkout");
     $router->get("carrinho", "Web:checkout");
     $router->get("products", "Web:products");
     $router->get("publication", "Web:publication");

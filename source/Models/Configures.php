@@ -47,7 +47,7 @@ class Configures extends Model
     }
 
     /**
-     *  FunÃ§Ã£o responsavel por buscar cinfigures do banco de dados.
+     *  Função responsavel por buscar configures do banco de dados.
      *
      * @param string $name
      * @return array|null

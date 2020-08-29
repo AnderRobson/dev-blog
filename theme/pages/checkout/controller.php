@@ -3,6 +3,7 @@
 namespace Theme\Pages\Checkout;
 
 use Source\Libary\Cart;
+use Source\Libary\Freight\FreightComponent;
 use Source\Libary\Paginator;
 use Source\Controllers\Controller;
 use Theme\Pages\Banner\BannerModel;
@@ -56,7 +57,16 @@ class CheckoutController extends Controller
 
     public function pagamento(): void
     {
-        $data = filter_var_array($_GET, FILTER_SANITIZE_STRING);
+        if (empty($this->cart->getCart())) {
+            flash("danger", "O seu carrinho de compras está vazio");
+            redirect('carrinho');
+        }
+
+        if (empty($this->user)) {
+            flash("warning", "Por Favor Logue-se");
+            redirect('login', false, 'carrinho/pagamento');
+        }
+
         $head = $this->seo->optimize(
             "Bem vindo ao " . SITE["SHORT_NAME"],
             SITE["DESCRIPTION"],
@@ -67,10 +77,20 @@ class CheckoutController extends Controller
         $this->user->person->getAddress();
         $this->user->person->address->getState();
 
-        $products = (new ProductsModel())->find('status = :status', 'status=' . SELF::STATUS_ACTIVE)->order('id');
+        $products = (new ProductsModel())->find(
+                'status = :status',
+                'status=' . SELF::STATUS_ACTIVE
+            )->order('id');
+
+        $banners = (new BannerModel())
+            ->find(
+            'type = :type',
+            'type=' . SELF::BANNER_TYPE_CHECKOUT)
+            ->order('id')
+            ->limit(SELF::BANNER_LIMIT_CHECKOUT);
 
         echo $this->view->render("checkout/view/payment", [
-            "banners" => (new BannerModel())->find('type = :type', 'type=' . SELF::BANNER_TYPE_CHECKOUT)->order('id')->limit(SELF::BANNER_LIMIT_CHECKOUT)->fetch(true),
+            "banners" => $banners->fetch(true),
             "products" => $products->fetch(true),
             "head" => $head
         ]);
@@ -123,6 +143,34 @@ class CheckoutController extends Controller
         ]);
     }
 
+    public function freight_quote(array $data)
+    {
+        if (empty($data['cep'])) {
+            return false;
+        }
+
+        $zipCode = filter_var($data['cep'], FILTER_SANITIZE_STRING);
+
+        $freight = new FreightComponent();
+        $response = $freight->freightQuote($zipCode);
+
+        echo json_encode([
+            'freight' => [
+                'street' => $response['logradouro'],
+                'number' => '',
+                'district' => $response['bairro'],
+                'city' => $response['localidade'],
+                'state' => $response['uf'],
+                'zip_code' => $response['cep'],
+                'value' => formatMoney($freight->getValue())
+            ],
+            'cart' => [
+                'total_amount' => formatMoney($this->cart->getTotal()),
+                'subtotal' => formatMoney($this->cart->getSubTotal())
+            ]
+        ], true);
+    }
+
     public function delete(array $data)
     {
         if (empty($data['id'])) {
@@ -149,6 +197,11 @@ class CheckoutController extends Controller
 
         $callback['cart'] = $this->cart->getQuantityItems();
         echo json_encode($callback);
+    }
+
+    public function do_pagamento($data = null)
+    {
+        echo json_encode($data);
     }
 
     public function do_destroy()

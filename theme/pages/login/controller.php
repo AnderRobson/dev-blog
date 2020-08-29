@@ -68,7 +68,7 @@ class LoginController extends Controller
 
             $_SESSION['user'] = $user->id;
             echo $this->ajaxResponse("redirect", [
-                "url" => url()
+                "url" => $_SESSION['redirectBack'] ?: url()
             ]);
             return;
         }
@@ -387,6 +387,13 @@ class LoginController extends Controller
         if (! empty($userById)) {
             unset($_SESSION["facebook_auth"]);
             $_SESSION["user"] = $userById->id;
+
+            $redirectBack = $this->getRedirectBack();
+            if (! empty($redirectBack)) {
+                redirect($redirectBack);
+                return;
+            }
+
             redirect();
             return;
         }

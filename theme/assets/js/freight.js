@@ -1,5 +1,10 @@
+let freight =
 $(function () {
-    $("#formulario").submit(function (e) {
+    var pgt = function (url, callback) {
+        var func = document.getElementsByName('')
+    };
+
+    $("#form").submit(function (e) {
         e.preventDefault();
 
         let form = $(this);
@@ -17,20 +22,23 @@ $(function () {
             success: function (response) {
                 ajax_load("close");
 
-                if (response.message) {
-                    var view = generateMessage(response.message);
-                    $(".form_ajax").html(view);
-                    $(".form_ajax").show();
-                    return;
-                }
-
-                if (response.redirect) {
-                    window.location.href = response.redirect.url;
-                }
+                troca_endereco(response);
+                payment.updatePrices(response);
             }
+        }).fail(function () {
+            ajax_load("close");
         });
     });
 
+    function troca_endereco(data) {
+        $("#street").val(data.freight.street);
+        $("#number").val(data.freight.number);
+        document.getElementById("number").readOnly = false;
+        $("#district").val(data.freight.district);
+        $("#city").val(data.freight.city);
+        $("#state").val(data.freight.state);
+        $("#zip_code").val(data.freight.zip_code);
+    }
     function ajax_load(action) {
         var load_div = $(".ajax_load");
         if (action === "open") {
@@ -42,7 +50,7 @@ $(function () {
 
     function generateMessage(data) {
         return '<div class="alert alert-' + data.type + ' alert-dismissible fade show" role="alert">' +
-                    data.message +
-                '</div>';
+            data.message +
+            '</div>';
     }
 });

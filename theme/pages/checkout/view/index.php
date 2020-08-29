@@ -13,6 +13,9 @@ $v->layout("checkout/view/_theme", ["title" => "Carrinho"]); ?>
     <main role="main" class="container my-5">
         <div class="container">
             <div class="row">
+                <?= flash(); ?>
+            </div>
+            <div class="row">
                 <div class="col-md-4 order-md-2 mb-5">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-muted">Seu Carrinho</span>
@@ -26,12 +29,20 @@ $v->layout("checkout/view/_theme", ["title" => "Carrinho"]); ?>
                             </div>
                             <span class="text-muted"><?= formatMoney($cart->getFreight()->getValue()); ?></span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between bg-light">
+                        <li class="list-group-item d-flex justify-content-between bg-light"
+                            <?=
+                                empty($cart->getDiscounts()->getTotal())
+                                    ?
+                                    'style="display: none !important"'
+                                    :
+                                    '';
+                            ?>
+                        >
                             <div class="text-success">
                                 <h6 class="my-0">Descontos</h6>
                                 <small>CODIGO_CUPOM</small>
                             </div>
-                            <span class="text-success">- R$ 50.00</span>
+                            <span class="text-success"><?= formatMoney($cart->getDiscounts()->getTotal()); ?></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <span>Sub Total</span>

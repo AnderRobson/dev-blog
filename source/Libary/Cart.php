@@ -4,6 +4,7 @@
 namespace Source\Libary;
 
 
+use Source\Libary\Freight\FreightComponent;
 use Theme\Pages\Products\ProductsModel;
 use Theme\Pages\Stock\StockModel;
 
@@ -12,9 +13,12 @@ class Cart
 
     private $Freight;
 
+    private $discounts;
+
     public function __construct()
     {
-        $this->Freight = new Freight();
+        $this->Freight = new FreightComponent();
+        $this->discounts = new Discounts();
     }
 
     /**
@@ -26,11 +30,13 @@ class Cart
             $stockModel = new StockModel();
             $products = [];
 
-            foreach ($_SESSION['cart']['product'] as $idItem => $item) {
-                $stock = $stockModel->findById($idItem);
-                $product = (new ProductsModel())->findById($stock->id_product);
-                $product->stock = $stock;
-                $products[] = $product;
+            if (isset($_SESSION['cart']['product'])) {
+                foreach ($_SESSION['cart']['product'] as $idItem => $item) {
+                    $stock = $stockModel->findById($idItem);
+                    $product = (new ProductsModel())->findById($stock->id_product);
+                    $product->stock = $stock;
+                    $products[] = $product;
+                }
             }
 
             return $products;
@@ -96,11 +102,37 @@ class Cart
     }
 
     /**
-     * @return Freight
+     * @return FreightComponent
      */
-    public function getFreight(): Freight
+    public function getFreight(): FreightComponent
     {
         return $this->Freight;
+    }
+
+    /**
+     * @param FreightComponent $Freight
+     */
+    public function setFreight(FreightComponent $Freight): void
+    {
+        $this->Freight = $Freight;
+    }
+
+
+
+    /**
+     * @return Discounts
+     */
+    public function getDiscounts(): Discounts
+    {
+        return $this->discounts;
+    }
+
+    /**
+     * @param Discounts $discounts
+     */
+    public function setDiscounts(Discounts $discounts): void
+    {
+        $this->discounts = $discounts;
     }
 
     public function remove()
