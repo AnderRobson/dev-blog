@@ -21,7 +21,6 @@ $v->layout("home/view/_theme", ["title" => "Home"]); ?>
 
     <!-- Three columns of text below the carousel -->
     <?php foreach($bannersProducts as $key => $banner): ?>
-<!--            <img src="" alt="" class="img-fluid d-block" style="object-fit: cover">-->
             <div class="jumbotron" style="background-image: url(<?= urlFile('banner/' . $banner->image); ?>); background-size: 100%; height: 750px; object-fit: cover;">
                 <div class="container">
                     <div class="row text-center">

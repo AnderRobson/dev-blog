@@ -50,8 +50,12 @@ class FreughtTest
     /**
      * @return mixed
      */
-    public function getData()
+    public function getData($name = null)
     {
+        if (! empty($name)) {
+            return $this->data[$name];
+        }
+
         return $this->data;
     }
 
@@ -75,6 +79,8 @@ class FreughtTest
 
     private function responseExample()
     {
+        $this->data['value'] = 0.00;
+
         $freight = [
             'PAC' => [
                 'initialZip' => '90000000',

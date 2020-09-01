@@ -50,14 +50,14 @@ class CheckoutController extends Controller
 
         echo $this->view->render("checkout/view/index", [
             "banners" => (new BannerModel())->find('type = :type', 'type=' . SELF::BANNER_TYPE_CHECKOUT)->order('id')->limit(SELF::BANNER_LIMIT_CHECKOUT)->fetch(true),
-            "products" => $this->cart->getCart(true),
+            "products" => $this->cart->getCart(null, true),
             "head" => $head
         ]);
     }
 
     public function pagamento(): void
     {
-        if (empty($this->cart->getCart())) {
+        if (empty($this->cart->getCart('product'))) {
             flash("danger", "O seu carrinho de compras está vazio");
             redirect('carrinho');
         }
@@ -76,11 +76,18 @@ class CheckoutController extends Controller
 
         $this->user->person->getAddress();
         $this->user->person->address->getState();
+        $freight = new FreightComponent();
+        if (
+            ! empty($this->user->person->address->zip_code)
+            &&
+            empty($freight->getFreight('street'))
+        ) {
 
-        $products = (new ProductsModel())->find(
-                'status = :status',
-                'status=' . SELF::STATUS_ACTIVE
-            )->order('id');
+            $freight->freightQuote($this->user->person->address->zip_code);
+            $freight->setFreight([
+                'number' => $this->user->person->address->number
+            ]);
+        }
 
         $banners = (new BannerModel())
             ->find(
@@ -91,54 +98,6 @@ class CheckoutController extends Controller
 
         echo $this->view->render("checkout/view/payment", [
             "banners" => $banners->fetch(true),
-            "products" => $products->fetch(true),
-            "head" => $head
-        ]);
-    }
-
-    public function create(array $data = null)
-    {
-        if (! empty($data)) {
-            $data = filter_var_array($data, FILTER_SANITIZE_STRING);
-
-            if (empty($data["title"]) || empty($data["description"]) || ! empty($_FILES["file"]["error"])) {
-                redirect("pages/products");
-                return;
-            }
-
-            $products = new ProductsModel();
-            $products->title = $data['title'];
-            $products->slug = str_replace(' ', '-', utf8_decode(strtolower($data['title'])));
-            $products->description = $data['description'];
-
-            if (! empty($_FILES["file"])) {
-                $upload = new Upload();
-                $upload->setArquivo($_FILES);
-                $upload->setDestinho("products");
-                $nameImage = $upload->upload();
-
-                if (! $nameImage) {
-                    redirect("pages/products");
-                }
-
-                $products->image = $nameImage;
-            }
-
-            if (! $products->save()) {
-                redirect("pages/products");
-            }
-
-            redirect("pages/products");
-        }
-
-        $head = $this->seo->optimize(
-            "Bem vindo ao " . SITE["SHORT_NAME"],
-            SITE["DESCRIPTION"],
-            url("pages/banner"),
-            ""
-        )->render();
-
-        echo $this->view->render("products/view/create", [
             "head" => $head
         ]);
     }
@@ -201,7 +160,23 @@ class CheckoutController extends Controller
 
     public function do_pagamento($data = null)
     {
-        echo json_encode($data);
+
+        $this->cart->do_payment([
+            'order' => json_encode($_SESSION)
+        ]);
+    }
+
+    public function edit_address($address = null)
+    {
+        $freight = new FreightComponent();
+        $freight->setFreight($address);
+
+        echo $this->ajaxResponse("message", [
+            "type" => "success",
+            "message" => "Endereço editado com Sucesso"
+        ]);
+
+        return;
     }
 
     public function do_destroy()

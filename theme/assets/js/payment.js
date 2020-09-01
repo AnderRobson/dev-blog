@@ -1,4 +1,3 @@
-let payment =
 $(function () {
     $("#payment").submit(function (e) {
         e.preventDefault();
@@ -13,17 +12,20 @@ $(function () {
             type: "post",
             dataType: "json",
             beforeSend: function (load) {
-                ajax_load("open");
+                utilities.ajax_load("open");
             },
             success: function (response) {
-                ajax_load("close");
+                utilities.ajax_load("close");
             }
         }).fail(function () {
-            ajax_load("close");
+            utilities.ajax_load("close");
+            alert("Erro ao processar a requisição !");
         });
     });
+});
 
-    function updatePrices(data) {
+let payment = {
+    updatePrices: function (data) {
         //Valor do frete
         $("#freight_value_cart").val(data.freight.value);
         $("#freight_value").val(data.freight.value);
@@ -35,18 +37,4 @@ $(function () {
         $("#subtotal").val(data.cart.subtotal);
 
     }
-    function ajax_load(action) {
-        var load_div = $(".ajax_load");
-        if (action === "open") {
-            load_div.fadeIn().css("display", "flex");
-        } else {
-            load_div.fadeOut();
-        }
-    }
-
-    function generateMessage(data) {
-        return '<div class="alert alert-' + data.type + ' alert-dismissible fade show" role="alert">' +
-            data.message +
-            '</div>';
-    }
-});
+};

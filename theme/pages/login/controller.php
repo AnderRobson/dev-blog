@@ -350,7 +350,7 @@ class LoginController extends Controller
         $facebook = new Facebook([
             "clientId" => $configure->clientId,
             "clientSecret" => $configure->clientSecret,
-            "redirectUri" => $configure->redirectUri->blog,
+            "redirectUri" => url("facebook"),
             "graphApiVersion" => $configure->graphApiVersion
         ]);
 
@@ -431,7 +431,7 @@ class LoginController extends Controller
         $google = new Google([
             "clientId" => $configure->clientId,
             "clientSecret" => $configure->clientSecret,
-            "redirectUri" => $configure->redirectUri->blog
+            "redirectUri" => url("google")
         ]);
 
         $error = filter_input(INPUT_GET, "error", FILTER_SANITIZE_STRIPPED);

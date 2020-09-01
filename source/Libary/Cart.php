@@ -8,6 +8,12 @@ use Source\Libary\Freight\FreightComponent;
 use Theme\Pages\Products\ProductsModel;
 use Theme\Pages\Stock\StockModel;
 
+/**
+ * Class Cart
+ * @package Source\Libary
+ *
+ * @property FreightComponent $Freight;
+ */
 class Cart
 {
 
@@ -17,14 +23,14 @@ class Cart
 
     public function __construct()
     {
-        $this->Freight = new FreightComponent();
+        $this->setFreight(new FreightComponent());
         $this->discounts = new Discounts();
     }
 
     /**
      * @return mixed
      */
-    public function getCart(bool $fetch = false)
+    public function getCart($name = null, bool $fetch = false)
     {
         if ($fetch) {
             $stockModel = new StockModel();
@@ -41,6 +47,11 @@ class Cart
 
             return $products;
         }
+
+        if (! empty($name)) {
+            return $_SESSION['cart'][$name];
+        }
+
         return $_SESSION['cart'];
     }
 
@@ -61,26 +72,40 @@ class Cart
 
     public function getTotal()
     {
+        $this->updateTotal();
+
+        return $_SESSION['cart']['order']['total'];
+    }
+
+    public function updateTotal()
+    {
         $total = 0;
-        $cart = $this->getCart(true);
+        $cart = $this->getCart(null, true);
 
         foreach ($cart as $item) {
             $total += $item->stock->current_value * $_SESSION['cart']['product'][$item->stock->id]['qtd'];
         }
 
-        return $total + $this->Freight->getValue();
+        $_SESSION['cart']['order']['total'] = $total + $this->Freight->getValue();
     }
 
     public function getSubTotal()
     {
+        $this->updateSubTotal();
+
+        return $_SESSION['cart']['order']['sub_total'];
+    }
+
+    public function updateSubTotal()
+    {
         $total = 0;
-        $cart = $this->getCart(true);
+        $cart = $this->getCart(null, true);
 
         foreach ($cart as $item) {
             $total += $item->stock->current_value * $_SESSION['cart']['product'][$item->stock->id]['qtd'];
         }
 
-        return $total;
+        $_SESSION['cart']['order']['sub_total'] =  $total;
     }
 
     public function add(array $data)
@@ -104,8 +129,12 @@ class Cart
     /**
      * @return FreightComponent
      */
-    public function getFreight(): FreightComponent
+    public function getFreight($name = null)
     {
+        if (! empty($name)) {
+            return $this->Freight->getFreight($name);
+        }
+
         return $this->Freight;
     }
 
@@ -149,5 +178,30 @@ class Cart
     public function changeQuantity()
     {
         
+    }
+
+    public function do_payment($date)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "http://localhost/site-dev/admin/webservice/createOrder",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => $date,
+            CURLOPT_HTTPHEADER => array(
+                "Cookie: PHPSESSID=31fhkd4hs6ov3a63j075p660to"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        echo $response;
     }
 }

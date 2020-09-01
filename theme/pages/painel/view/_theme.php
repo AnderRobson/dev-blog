@@ -8,6 +8,7 @@
         <title><?= $title; ?></title>
         <?php
             echo js("jquery");
+            echo js("utilities");
             echo css("style.min");
             echo bootstrap("dist/css/bootstrap.min.css");
             echo js("cart");

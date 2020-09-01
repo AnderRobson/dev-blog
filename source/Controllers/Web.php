@@ -9,6 +9,7 @@
     use Theme\Pages\Login\LoginController;
     use Theme\Pages\Products\ProductsController;
     use Theme\Pages\Publication\PublicationController;
+    use Theme\Pages\User\UserController;
     use Theme\Pages\User\UserModel;
 
     /**
@@ -112,6 +113,24 @@
             $this->pages(
                 [
                     "page" => "checkout"
+                ] + $data
+            );
+        }
+
+        /**
+         * Responsavel por fazer a chamada das páginas do carrinho.
+         *
+         * @param array $data
+         */
+        public function user($data = [])
+        {
+            if (empty($data['function'])) {
+                $data['function'] = 'index';
+            }
+
+            $this->pages(
+                [
+                    "page" => "user"
                 ] + $data
             );
         }
@@ -294,9 +313,21 @@
          *
          * @param $data
          */
-        public function error($data)
+        public function error($errcode)
         {
-            echo "<h1 style='text-align: center'>Web Error " . $data['errcode'] . "</h1>";
+            $errcode = filter_var($errcode["errcode"], FILTER_VALIDATE_INT);
+
+            $head = $this->seo->optimize(
+                "Bem vindo ao " . SITE["SHORT_NAME"],
+                SITE["DESCRIPTION"],
+                url("home"),
+                "",
+                )->render();
+
+            echo $this->view->render("error/error", [
+                'errcode' => $errcode,
+                'head' => $head
+            ]);
         }
 
         /**
@@ -319,6 +350,9 @@
                     break;
                 case 'checkout':
                     $controller = new CheckoutController($this->router);
+                    break;
+                case 'user':
+                    $controller = new UserController($this->router);
                     break;
             }
 

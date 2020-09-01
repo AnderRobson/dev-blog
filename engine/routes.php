@@ -17,6 +17,9 @@
     $router->get("products/{slug_product}", "Web:slugProduct");
     $router->get("carrinho/{function}", "Web:checkout");
     $router->post("carrinho/{function}", "Web:checkout");
+    $router->get("user/{function}", "Web:user");
+    $router->post("user/{function}", "Web:user");
+    $router->get("user", "Web:user");
     $router->get("carrinho", "Web:checkout");
     $router->get("products", "Web:products");
     $router->get("publication", "Web:publication");

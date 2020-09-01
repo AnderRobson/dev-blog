@@ -1,9 +1,4 @@
-let freight =
 $(function () {
-    var pgt = function (url, callback) {
-        var func = document.getElementsByName('')
-    };
-
     $("#form").submit(function (e) {
         e.preventDefault();
 
@@ -17,40 +12,29 @@ $(function () {
             type: "post",
             dataType: "json",
             beforeSend: function (load) {
-                ajax_load("open");
+                utilities.ajax_load("open");
             },
             success: function (response) {
-                ajax_load("close");
+                utilities.ajax_load("close");
 
-                troca_endereco(response);
-                payment.updatePrices(response);
+                address.addEditAddress();
+                freight.exchangeAddress(response);
+                payment.updatePrices(response)
             }
         }).fail(function () {
-            ajax_load("close");
+            utilities.ajax_load("close");
+            alert("Erro ao processar a requisição !");
         });
     });
+});
 
-    function troca_endereco(data) {
+let freight = {
+    exchangeAddress: function (data) {
         $("#street").val(data.freight.street);
         $("#number").val(data.freight.number);
-        document.getElementById("number").readOnly = false;
         $("#district").val(data.freight.district);
         $("#city").val(data.freight.city);
-        $("#state").val(data.freight.state);
+        $("#state").val($('option:contains(' + data.freight.state + ')').val());
         $("#zip_code").val(data.freight.zip_code);
     }
-    function ajax_load(action) {
-        var load_div = $(".ajax_load");
-        if (action === "open") {
-            load_div.fadeIn().css("display", "flex");
-        } else {
-            load_div.fadeOut();
-        }
-    }
-
-    function generateMessage(data) {
-        return '<div class="alert alert-' + data.type + ' alert-dismissible fade show" role="alert">' +
-            data.message +
-            '</div>';
-    }
-});
+};

@@ -36,13 +36,17 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" >
-                                <a class="dropdown-item" href="<?= url("pages/user"); ?>"> Perfil </a>
+                                <a class="dropdown-item" href="<?= url("user"); ?>"> Perfil </a>
                                 <a class="dropdown-item" href="<?= url("sair"); ?>"> Sair </a>
                             </div>
                         </li>
                     <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?= url("login"); ?>">Login/Registrar-se</a>
+                            <?php if (strtolower($title) != "login"): ?>
+                                <a class="nav-link" href="<?= url("login"); ?>">Login</a>
+                            <?php else: ?>
+                                <a class="nav-link" href="<?= url("register"); ?>">Registrar-se</a>
+                            <?php endif; ?>
                         </li>
                     <?php endif; ?>
                 </ul>

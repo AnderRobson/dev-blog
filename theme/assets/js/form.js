@@ -12,13 +12,13 @@ $(function () {
             type: "post",
             dataType: "json",
             beforeSend: function (load) {
-                ajax_load("open");
+                utilities.ajax_load("open");
             },
             success: function (response) {
-                ajax_load("close");
+                utilities.ajax_load("close");
 
                 if (response.message) {
-                    var view = generateMessage(response.message);
+                    var view = utilities.generateMessage(response.message);
                     $(".form_ajax").html(view);
                     $(".form_ajax").show();
                     return;
@@ -30,19 +30,4 @@ $(function () {
             }
         });
     });
-
-    function ajax_load(action) {
-        var load_div = $(".ajax_load");
-        if (action === "open") {
-            load_div.fadeIn().css("display", "flex");
-        } else {
-            load_div.fadeOut();
-        }
-    }
-
-    function generateMessage(data) {
-        return '<div class="alert alert-' + data.type + ' alert-dismissible fade show" role="alert">' +
-                    data.message +
-                '</div>';
-    }
 });

@@ -16,7 +16,7 @@ if ($_SERVER["SERVER_NAME"] == "localhost" || $_SERVER["SERVER_NAME"] == "192.16
 function url(string $path = null): string
 {
     if ($path) {
-        return URL_BASE . DS . $path;
+        return URL_BASE . "/" . $path;
     }
 
     return URL_BASE;
