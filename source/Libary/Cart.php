@@ -182,26 +182,28 @@ class Cart
 
     public function do_payment($date)
     {
-        $curl = curl_init();
+//        $curl = curl_init();
+//
+//        curl_setopt_array($curl, [
+//            CURLOPT_URL => url('admin/webservice/createOrder', 'http'),
+//            CURLOPT_RETURNTRANSFER => true,
+//            CURLOPT_ENCODING => "",
+//            CURLOPT_MAXREDIRS => 10,
+//            CURLOPT_TIMEOUT => 0,
+//            CURLOPT_FOLLOWLOCATION => true,
+//            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+//            CURLOPT_CUSTOMREQUEST => "POST",
+//            CURLOPT_POSTFIELDS => $date,
+//            CURLOPT_HTTPHEADER => [
+//                "Cookie: PHPSESSID=31fhkd4hs6ov3a63j075p660to"
+//            ],
+//        ]);
+//
+//        $response = curl_exec($curl);
+//
+//        curl_close($curl);
+        $response = '{"order":{"id":"16","id_user":"1","status":"1","address":{"id":"1","street":"Av. Dos Prazeres","number":"1287","district":"Vila Jardim","city":"Porto Alegre","zip_code":"91320150","id_state":"1287"},"products":[{"id":"9","id_product":"1","id_stock":"1","status":"1","value":"100","old_value":"130","quantity":"1"},{"id":"10","id_product":"3","id_stock":"4","status":"1","value":"150.35","old_value":"200","quantity":"1"}]}}';
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "http://localhost/site-dev/admin/webservice/createOrder",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => $date,
-            CURLOPT_HTTPHEADER => array(
-                "Cookie: PHPSESSID=31fhkd4hs6ov3a63j075p660to"
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        echo $response;
+        return json_decode($response, true);
     }
 }

@@ -13,13 +13,33 @@ if ($_SERVER["SERVER_NAME"] == "localhost" || $_SERVER["SERVER_NAME"] == "192.16
  * @param string $path
  * @return string
  */
-function url(string $path = null): string
+function url(string $path = null, string $protocol = null): string
 {
-    if ($path) {
-        return URL_BASE . "/" . $path;
+    $url = URL_BASE;
+    if (! empty($protocol)) {
+        $url = str_replace('https://', $protocol . '://', $url);
     }
 
-    return URL_BASE;
+    if ($path) {
+        return $url . "/" . $path;
+    }
+
+    return $url;
+}
+
+/**
+ * Responsavel por montar url para o admin .
+ *
+ * @param string $path
+ * @return string
+ */
+function urlAdmin(string $path = null): string
+{
+    if ($path) {
+        return URL_ADMIN . "/" . $path;
+    }
+
+    return URL_ADMIN;
 }
 
 /**

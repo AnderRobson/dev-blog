@@ -3,7 +3,9 @@
 namespace Theme\Pages\User;
 
 use Source\Controllers\Controller;
+use Source\Libary\Paginator;
 use Theme\pages\address\AddressModel;
+use Theme\pages\order\OrderModel;
 
 /**
  * Class UserController
@@ -23,7 +25,7 @@ class UserController extends Controller
     /**
      * Página index perfil.
      */
-    public function index(): void
+    public function index($data = null): void
     {
         $head = $this->seo->optimize(
             "Bem vindo ao " . SITE["SHORT_NAME"],
@@ -35,8 +37,19 @@ class UserController extends Controller
         $this->user->person->getAddress();
         $this->user->person->address->getState();
 
+        $order = (new OrderModel())->find(
+            'id_user = :id_user',
+            'id_user=' . $this->user->id
+        );
+
+        $page = isset($data["page"]) ? $data["page"] : 1;
+        $limit = isset($data["limit"]) ? $data["limit"] : 20;
+        $pager = new Paginator(url('user?' . (isset($data["limit"]) ? 'limit=' . $limit . '&' : '') . 'page='));
+        $pager->pager($order->count(), $limit, $page, 2);
         echo $this->view->render("user/view/index", [
-            'head' => $head
+            'head' => $head,
+            'orders' => $order->limit($pager->limit())->offset($pager->offset())->fetch(true),
+            "pager" => $pager
         ]);
     }
 

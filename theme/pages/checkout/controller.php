@@ -7,6 +7,7 @@ use Source\Libary\Freight\FreightComponent;
 use Source\Libary\Paginator;
 use Source\Controllers\Controller;
 use Theme\Pages\Banner\BannerModel;
+use Theme\pages\order\OrderModel;
 use Theme\Pages\Products\ProductsModel;
 
 /**
@@ -22,11 +23,20 @@ class CheckoutController extends Controller
      *  Identificador de Banner do carrinho.
      */
     private const BANNER_TYPE_CHECKOUT = 4;
+    /**
+     *  Identificador de Banner do confirmação.
+     */
+    private const BANNER_TYPE_CONFIRMATION = 5;
 
     /**
      *  Limit de Banner no carrinho.
      */
     private const BANNER_LIMIT_CHECKOUT = 2;
+
+    /**
+     *  Limit de Banner no confirmação.
+     */
+    private const BANNER_LIMIT_CONFIRMATION = 2;
 
     /**
      *  Status ativo
@@ -49,7 +59,7 @@ class CheckoutController extends Controller
         )->render();
 
         echo $this->view->render("checkout/view/index", [
-            "banners" => (new BannerModel())->find('type = :type', 'type=' . SELF::BANNER_TYPE_CHECKOUT)->order('id')->limit(SELF::BANNER_LIMIT_CHECKOUT)->fetch(true),
+            "banners" => (new BannerModel())->find('type = :type', 'type=' . self::BANNER_TYPE_CHECKOUT)->order('id')->limit(self::BANNER_LIMIT_CHECKOUT)->fetch(true),
             "products" => $this->cart->getCart(null, true),
             "head" => $head
         ]);
@@ -92,9 +102,9 @@ class CheckoutController extends Controller
         $banners = (new BannerModel())
             ->find(
             'type = :type',
-            'type=' . SELF::BANNER_TYPE_CHECKOUT)
+            'type=' . self::BANNER_TYPE_CHECKOUT)
             ->order('id')
-            ->limit(SELF::BANNER_LIMIT_CHECKOUT);
+            ->limit(self::BANNER_LIMIT_CHECKOUT);
 
         echo $this->view->render("checkout/view/payment", [
             "banners" => $banners->fetch(true),
@@ -158,11 +168,64 @@ class CheckoutController extends Controller
         echo json_encode($callback);
     }
 
-    public function do_pagamento($data = null)
+    public function do_pagamento()
     {
 
-        $this->cart->do_payment([
+        $order = $this->cart->do_payment([
             'order' => json_encode($_SESSION)
+        ]);
+
+        if (empty($order) || empty($order['order']['id'])) {
+            echo $this->ajaxResponse("message", [
+                "type" => "danger",
+                "message" => "Erro ao cadastrar o pedido"
+            ]);
+
+            return;
+        }
+
+        $this->cart->destroy();
+
+        flash("success", "Seu pedido foi cadastrado com sucesso");
+
+        echo $this->ajaxResponse("redirect", [
+            "url" => url('carrinho/confirmacao?order=' . $order['order']['id'])
+        ]);
+        return;
+    }
+
+    public function confirmacao($data = null)
+    {
+        $orderId = filter_var($data['order'], FILTER_VALIDATE_INT);
+        $order = (new OrderModel())->find(
+            'id = :id AND id_user = :id_user',
+            'id=' . $orderId . '&id_user=' . $this->user->id
+        );
+
+        if (empty($orderId) || ! $order = $order->fetch()) {
+            flash("danger", "Seu pedido não foi encontrado");
+            redirect();
+        }
+
+        $head = $this->seo->optimize(
+            "Bem vindo ao " . SITE["SHORT_NAME"],
+            SITE["DESCRIPTION"],
+            url($data['route']),
+            ""
+        )->render();
+
+        $banner = (new BannerModel())
+            ->find('type = :type', 'type=' . self::BANNER_TYPE_CONFIRMATION)
+            ->order('id')
+            ->limit(self::BANNER_LIMIT_CONFIRMATION);
+
+        $order->getOrderProduct();
+
+        echo $this->view->render("checkout/view/confirmation", [
+            "banners" => $banner->fetch(true),
+            "order" => $order,
+            "address" => $order->getAddress()->getState(),
+            "head" => $head
         ]);
     }
 

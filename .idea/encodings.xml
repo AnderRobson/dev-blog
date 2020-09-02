@@ -12,5 +12,8 @@
     <file url="file://$PROJECT_DIR$/theme/pages/home/controller.php" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/theme/pages/login/controller.php" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/theme/pages/user/controller.php" charset="ISO-8859-1" />
+    <file url="remoteDeploymentFS://&lt;7023465b-1ef7-491a-b522-2228e33221bd&gt;/public_html/dev-blog/source/Controllers/Web.php" charset="ISO-8859-1" />
+    <file url="remoteDeploymentFS://&lt;7023465b-1ef7-491a-b522-2228e33221bd&gt;/public_html/dev-blog/theme/pages/home/view/index.php" charset="UTF-8" />
+    <file url="remoteDeploymentFS://&lt;7023465b-1ef7-491a-b522-2228e33221bd&gt;/public_html/dev-blog/theme/pages/login/controller.php" charset="ISO-8859-1" />
   </component>
 </project>

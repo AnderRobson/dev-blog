@@ -16,6 +16,15 @@ $(function () {
             },
             success: function (response) {
                 utilities.ajax_load("close");
+                if (response.message) {
+                    var view = utilities.generateMessage(response.message);
+                    $(".form_ajax").html(view);
+                    $(".form_ajax").show();
+                }
+
+                if (response.redirect) {
+                    window.location.href = response.redirect.url;
+                }
             }
         }).fail(function () {
             utilities.ajax_load("close");

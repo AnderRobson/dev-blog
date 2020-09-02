@@ -1,29 +1,29 @@
 <?php
-    if (!defined('DS')) {
+    if (! defined('DS')) {
         define('DS', DIRECTORY_SEPARATOR);
     }
 
-    if (!defined('URL_BASE')) {
-        define('URL_BASE', 'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE["PATH"]);
+    if (! defined('URL_BASE')) {
+        define('URL_BASE', 'http://' . $_SERVER['HTTP_HOST'] . '/' . SITE["PATH"]);
     }
 
-    if (!defined('URL_ADMIN')) {
+    if (! defined('URL_ADMIN')) {
         define('URL_ADMIN', 'https://' . $_SERVER['HTTP_HOST'] . '/dev-admin');
     }
 
-    if (!defined('URL_BLOG')) {
+    if (! defined('URL_BLOG')) {
         define('URL_BLOG', 'https://' . $_SERVER['HTTP_HOST'] . '/' . SITE["PATH"]);
     }
 
-    if (!defined('BASE_PATH')) {
+    if (! defined('BASE_PATH')) {
         define('BASE_PATH', dirname(str_replace('/', DS, $_SERVER['SCRIPT_FILENAME'])));
     }
 
-    if (!defined('SITE_ROOT')) {
+    if (! defined('SITE_ROOT')) {
         define('SITE_ROOT', dirname(BASE_PATH));
     }
 
-    if (!defined('ENGINE')) {
+    if (! defined('ENGINE')) {
         define('ENGINE', ROOT . DS . 'engine');
     }
 

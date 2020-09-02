@@ -18,7 +18,7 @@ $v->layout("checkout/view/_theme", ["title" => "Pagamento"]); ?>
                     <div class="ajax_load_box_title jumbotrom">Aguarde, carregando!</div>
                 </div>
             </div>
-            <div class="form_ajax" style="display: none"></div>
+            <div class="form_ajax text-center" style="display: none"></div>
             <div class="row">
                 <div class="col-md-4 order-md-1 mb-5">
                     <div class="row mb-3">

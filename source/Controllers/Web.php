@@ -142,6 +142,7 @@
          */
         public function pages(array $data)
         {
+            $data = array_merge($data, $_GET);
             require loadController($data['page']);
             $this->setController($data['page']);
             $function = ! empty($data['function']) ? $data['function'] : "index";
@@ -188,7 +189,7 @@
         {
             unset($_SESSION["user"]);
 
-            flash("success", "Você saiu com sucesso, volte logo {$this->user->first_name}!");
+            flash("success", "Você saiu com sucesso, volte logo {$this->user->person->first_name}!");
             unset($this->user);
 
             redirect("login");
