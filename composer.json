@@ -24,7 +24,8 @@
     "league/oauth2-facebook": "2.0.1",
     "league/oauth2-google": "3.0.2",
     "matthiasmullie/minify": "1.3.61",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "ext-pdo": "*"
   },
   "license": "MIT",
   "authors": [

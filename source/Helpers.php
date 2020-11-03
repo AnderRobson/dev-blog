@@ -3,9 +3,9 @@
 /**
  * Responsavel por minificar arquivos da pasta assets.
  */
-if ($_SERVER["SERVER_NAME"] == "localhost" || $_SERVER["SERVER_NAME"] == "192.168.0.11") {
-    require __DIR__ . DS . "Minify.php";
-}
+//if ($_SERVER["SERVER_NAME"] == "localhost" || $_SERVER["SERVER_NAME"] == "192.168.0.11") {
+//    require __DIR__ . DS . "Minify.php";
+//}
 
 /**
  * Responsavel por montar url para redirecionamentos dentro da plataforma.
@@ -17,7 +17,7 @@ function url(string $path = null, string $protocol = null): string
 {
     $url = URL_BASE;
     if (! empty($protocol)) {
-        $url = str_replace('https://', $protocol . '://', $url);
+        $url = str_replace('http://', $protocol . '://', $url);
     }
 
     if ($path) {

@@ -143,7 +143,6 @@
         public function pages(array $data)
         {
             $data = array_merge($data, $_GET);
-            require loadController($data['page']);
             $this->setController($data['page']);
             $function = ! empty($data['function']) ? $data['function'] : "index";
 
@@ -172,7 +171,6 @@
                 redirect();
             }
 
-            require loadController('login');
             $this->controller = new LoginController($this->router);
 
             if (!empty($data)) {
@@ -204,7 +202,6 @@
                 redirect();
             }
 
-            require loadController('login');
             $this->controller = new LoginController($this->router);
 
             if (!empty($data)) {
@@ -225,7 +222,6 @@
                 redirect();
             }
 
-            require loadController('login');
             $this->controller = new LoginController($this->router);
 
             $this->controller->reset($data);
@@ -242,7 +238,6 @@
                 redirect();
             }
 
-            require loadController('login');
             $this->controller = new LoginController($this->router);
 
             $this->controller->resetPassword($data);
@@ -257,7 +252,6 @@
                 redirect();
             }
 
-            require loadController('login');
             $this->controller = new LoginController($this->router);
 
             if (! empty($data)) {
@@ -278,7 +272,6 @@
                 redirect();
             }
 
-            require loadController('login');
             $this->controller = new LoginController($this->router);
 
             if (! empty($data)) {
@@ -299,7 +292,6 @@
                 redirect();
             }
 
-            require loadController('login');
             $this->controller = new LoginController($this->router);
 
             if (! empty($data)) {
@@ -339,22 +331,11 @@
         private function setController($controllerName): void
         {
             $controller = null;
-            switch ($controllerName) {
-                case 'home':
-                    $controller = new HomeController($this->router);
-                    break;
-                case 'products':
-                    $controller = new ProductsController($this->router);
-                    break;
-                case 'publication':
-                    $controller = new PublicationController($this->router);
-                    break;
-                case 'checkout':
-                    $controller = new CheckoutController($this->router);
-                    break;
-                case 'user':
-                    $controller = new UserController($this->router);
-                    break;
+            $namespace = 'Theme\Pages\\' . ucfirst($controllerName);
+            $className = $namespace . '\\' . ucfirst($controllerName) . 'Controller';
+
+            if (class_exists($className)) {
+                $controller = new $className($this->router);
             }
 
             if (! empty($controller)) {
