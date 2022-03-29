@@ -4,8 +4,8 @@ namespace Theme\Pages\User;
 
 use Source\Controllers\Controller;
 use Source\Libary\Paginator;
-use Theme\pages\address\AddressModel;
-use Theme\pages\order\OrderModel;
+use Theme\Pages\Address\AddressModel;
+use Theme\Pages\Order\OrderModel;
 
 /**
  * Class UserController

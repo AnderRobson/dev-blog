@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Theme\pages\order;
+namespace Theme\Pages\Order;
 
 
 use Source\Models\Model;
-use Theme\pages\address\AddressModel;
-use Theme\pages\orderProduct\OrderProductModel;
+use Theme\Pages\Address\AddressModel;
+use Theme\Pages\OrderProduct\OrderProductModel;
 
 class OrderModel extends Model
 {

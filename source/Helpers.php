@@ -15,7 +15,7 @@
  */
 function url(string $path = null, string $protocol = null): string
 {
-    $url = URL_BASE;
+    $url = URL_BLOG;
     if (! empty($protocol)) {
         $url = str_replace('http://', $protocol . '://', $url);
     }
@@ -43,22 +43,6 @@ function urlAdmin(string $path = null): string
 }
 
 /**
- * Responsavel por carregar Controller da pasta pages para definir controlador da url acessada.
- *
- * @param string $controller
- * @return string
- */
-function loadController(string $controller)
-{
-    $route = ROOT . DS . 'theme' . DS . 'pages' . DS . $controller . DS . 'controller.php';
-
-    if (file_exists($route))
-        return $route;
-    else
-        printrx(utf8_encode("<h1 style='text-align: center'>Página {$controller} não encontrada</h1>"));
-}
-
-/**
  * Responsavel por retorna a URL de arquivos
  *
  * @param string $path
@@ -83,14 +67,14 @@ function urlFile(string $path, bool $theme = false): string
  */
 function css(string $file, $time = true)
 {
-    $file = "/dev-blog/theme/assets/css/" . $file . ".css";
+    $file = "dev-blog/theme/assets/css/" . $file . ".css";
     $fileOnDir = ROOT . DS . $file;
 
     if ($time && file_exists($fileOnDir)) {
         $file .= "?time=" . fileatime($fileOnDir);
     }
 
-    return "<link rel='stylesheet' href='{$file}'>";
+    return "<link rel='stylesheet' href='" . URL_BASE . "/{$file}'>";
 }
 
 
@@ -103,14 +87,14 @@ function css(string $file, $time = true)
  */
 function js(string $file, $time = true)
 {
-    $file = "/dev-blog/theme/assets/js/" . $file . ".js";
+    $file = "dev-blog/theme/assets/js/" . $file . ".js";
     $fileOnDir = ROOT . DS . $file;
 
     if ($time && file_exists($fileOnDir)) {
         $file .= "?time=" . fileatime($fileOnDir);
     }
 
-    return "<script src='{$file}'></script>";
+    return "<script src='" . URL_BASE . "/{$file}'></script>";
 }
 
 
@@ -126,7 +110,7 @@ function plugins(string $file, $time = true)
     $return = null;
     $type = explode('.', $file);
     $type = end($type);
-    $file = "/dev-blog/theme/assets/plugins/" . $file;
+    $file = "dev-blog/theme/assets/plugins/" . $file;
     $fileOnDir = ROOT . DS . $file;
 
     if ($time && file_exists($fileOnDir)) {
@@ -135,10 +119,10 @@ function plugins(string $file, $time = true)
 
     switch ($type) {
         case 'js':
-            $return = "<script src='{$file}'></script>";
+            $return = "<script src='" . URL_BASE . "/{$file}'></script>";
             break;
         case 'css':
-            $return = "<link rel='stylesheet' href='{$file}'>";
+            $return = "<link rel='stylesheet' href='" . URL_BASE . "/{$file}'>";
     }
 
     return $return;
@@ -157,7 +141,7 @@ function bootstrap(string $file, $time = true)
     $type = explode('.', $file);
     $type = end($type);
 
-    $file = "/dev-blog/vendor/twbs/bootstrap/" . $file;
+    $file = "dev-blog/vendor/twbs/bootstrap/" . $file;
     $fileOnDir = ROOT . DS . $file;
 
     if ($time && file_exists($fileOnDir)) {
@@ -166,10 +150,10 @@ function bootstrap(string $file, $time = true)
 
     switch ($type) {
         case 'js':
-            $return = "<script src='{$file}'></script>";
+            $return = "<script src='" . URL_BASE . "/{$file}'></script>";
             break;
         case 'css':
-            $return = "<link rel='stylesheet' href='{$file}'>";
+            $return = "<link rel='stylesheet' href='" . URL_BASE . "/{$file}'>";
     }
 
     return $return;

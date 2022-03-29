@@ -7,7 +7,7 @@ use Source\Libary\Freight\FreightComponent;
 use Source\Libary\Paginator;
 use Source\Controllers\Controller;
 use Theme\Pages\Banner\BannerModel;
-use Theme\pages\order\OrderModel;
+use Theme\Pages\Order\OrderModel;
 use Theme\Pages\Products\ProductsModel;
 
 /**

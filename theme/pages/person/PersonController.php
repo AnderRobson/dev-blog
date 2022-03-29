@@ -1,15 +1,15 @@
 <?php
 
 
-namespace Theme\pages\person;
+namespace Theme\Pages\Person;
 
 
 use Source\Controllers\Controller;
-use Theme\pages\address\AddressModel;
+use Theme\Pages\Address\AddressModel;
 
 /**
  * Class PersonController
- * @package Theme\pages\person
+ * @package Theme\Pages\Person
  *
  *
  */
