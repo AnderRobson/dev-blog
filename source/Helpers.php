@@ -48,10 +48,10 @@ function urlAdmin(string $path = null): string
  * @param string $path
  * @return string
  */
-function urlFile(string $path, bool $theme = false): string
+function urlFile(string $path, bool $theme = true): string
 {
     if ($theme) {
-        return URL_BLOG . '/' . $path;
+        return URL_BLOG . "/upload/" . $path;
     }
 
     return URL_ADMIN . "/theme/upload/" . $path;

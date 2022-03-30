@@ -170,7 +170,6 @@ class CheckoutController extends Controller
 
     public function do_pagamento()
     {
-
         $order = $this->cart->do_payment([
             'order' => json_encode($_SESSION)
         ]);
