@@ -10,6 +10,5 @@
         <a href="#" data-action="<?= url("carrinho/do_add"); ?>" data-stock="<?= $product->getStock()->id; ?>" class="remove btn btn-outline-danger my-5 active" role="button" aria-pressed="true">
             <i data-feather="shopping-cart"></i> Adicionar ao Carrinho
         </a>
-        <p class="mb-1 text-muted">Data de lançamento: <?=  $product->created_at;?></p>
     </div>
 </div>

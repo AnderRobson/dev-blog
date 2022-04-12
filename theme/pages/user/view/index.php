@@ -1,7 +1,7 @@
 <?php
 $v->layout("user/view/_theme", ["title" => "Meu Perfil"]); ?>
     <main role="main">
-        <div class="jumbotron" style="background-image: url('https://i0.wp.com/www.backlogreviews.com/wp-content/uploads/2018/10/0.-Follow-the-Banner.jpg?resize=1920%2C1080'); background-size: 100%; max-height: 1000px; object-fit: cover;">
+        <div class="jumbotron" style="background-image: url('<?= url('images/background-user.jpg'); ?>'); background-size: 100%; max-height: 1000px; object-fit: cover;">
             <div class="container">
                 <div class="row">
                     <div class="ajax_load">

@@ -16,9 +16,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<?= url("publication"); ?>">Publicação</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= url("contact"); ?>">Contato</a>
-                    </li>
                 </ul>
                 <ul class="navbar-nav px-3 ml-auto">
                     <a href="<?= url('carrinho')?>">

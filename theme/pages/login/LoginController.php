@@ -57,7 +57,7 @@ class LoginController extends Controller
             if (! $user || ! password_verify($password, $user->password)) {
                 echo $this->ajaxResponse("message", [
                     "type" => "danger",
-                    "message" => "E-mail ou senha informados não conferem!"
+                    "message" => "E-mail e/ou senha informados não conferem!"
                 ]);
 
                 return;
@@ -68,7 +68,7 @@ class LoginController extends Controller
 
             $_SESSION['user'] = $user->id;
             echo $this->ajaxResponse("redirect", [
-                "url" => $_SESSION['redirectBack'] ?: url()
+                "url" => ! empty($_SESSION['redirectBack']) ? $_SESSION['redirectBack'] : url()
             ]);
             return;
         }

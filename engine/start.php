@@ -8,11 +8,11 @@
     }
 
     if (! defined('URL_ADMIN')) {
-        define('URL_ADMIN', 'http://' . $_SERVER['HTTP_HOST'] . (! empty(SITE["SUB_PATH"]) ? '/' . SITE["SUB_PATH"] : '') . '/dev-admin');
+        define('URL_ADMIN', URL_BASE . '/dev-admin');
     }
 
     if (! defined('URL_BLOG')) {
-        define('URL_BLOG', 'http://' . $_SERVER['HTTP_HOST'] . (! empty(SITE["SUB_PATH"]) ? '/' . SITE["SUB_PATH"] : '') . '/' . SITE["PATH"]);
+        define('URL_BLOG', URL_BASE . '/' . SITE["PATH"]);
     }
 
     if (! defined('BASE_PATH')) {

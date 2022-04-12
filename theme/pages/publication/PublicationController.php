@@ -31,7 +31,7 @@ class PublicationController extends Controller
             ""
         )->render();
 
-        $publications = (new PublicationModel())->find()->order('id');
+        $publications = (new PublicationModel())->find('status = 1')->order('id');
         $banners = (new BannerModel())->find('type = 2')->order('id')->limit(3);
 
         $page = isset($data["page"]) ? $data["page"] : 1;
@@ -78,7 +78,7 @@ class PublicationController extends Controller
             $publication->slug = str_replace(' ', '-', utf8_decode(strtolower($data['title'])));
             $publication->description = $data['description'];
 
-            if (! empty($_FILES["file"])) {
+            if (! empty($_FILES["file"]['name'])) {
                 $upload = new Upload();
                 $upload->setArquivo($_FILES);
                 $upload->setDestinho("publication");

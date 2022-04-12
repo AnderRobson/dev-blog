@@ -85,7 +85,7 @@ class ProductsController extends Controller
             $products->slug = str_replace(' ', '-', utf8_decode(strtolower($data['title'])));
             $products->description = $data['description'];
 
-            if (! empty($_FILES["file"])) {
+            if (! empty($_FILES["file"]['name'])) {
                 $upload = new Upload();
                 $upload->setArquivo($_FILES);
                 $upload->setDestinho("products");
